@@ -5,10 +5,7 @@
  */
 package cz.upce.fei.inptp.zz.entity;
 
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -19,94 +16,73 @@ import static org.junit.Assert.*;
  */
 public class SchoolTest {
 
-    @Test
-    public void testAddStudentToCourseAction() {
-        // TODO: make this initialization smarter...
-        // TODO: use of @Before?
-        School school = new School();
-        Student student = new Student();
-        Course course = new Course();
-        TimeSlot timeSlot = new TimeSlot();
+    private School school;
+    private Student student;
+    private Course course;
+    private TimeSlot timeSlot;
+    private CourseAction courseAction;
+
+    @Before
+    public void initialize() {
+        school = new School();
+        student = new Student();
+        course = new Course();
+        timeSlot = new TimeSlot();
+
         timeSlot.day = TimeSlot.Day.Saturdy;
         timeSlot.duration = 2;
         timeSlot.hour = 10;
-        
-        CourseAction ca = new CourseAction();
-        ca.timeSlot = timeSlot;
-        
+
+        courseAction = new CourseAction();
+        courseAction.timeSlot = timeSlot;
+    }
+
+    @Test
+    public void testAddStudentToCourseAction() {
+
         school.courses.add(course);
-        course.actions.add(ca);
+        course.actions.add(courseAction);
         school.students.add(student);
-        
+
         boolean result = school.addStudentToCourseAction(course, student, timeSlot);
-        
+
         assertTrue(result);
         // TODO: do also invalid cases...
     }
-    
+
     @Test
     public void testAddStudentToCourseActionWhenCourseIsNotPresent() {
-        School school = new School();
-        Student student = new Student();
-        Course course = new Course();
-        TimeSlot timeSlot = new TimeSlot();
-        timeSlot.day = TimeSlot.Day.Saturdy;
-        timeSlot.duration = 2;
-        timeSlot.hour = 10;
-        
-        CourseAction ca = new CourseAction();
-        ca.timeSlot = timeSlot;
-        
+
         //school.courses.add(course);
-        course.actions.add(ca);
+        course.actions.add(courseAction);
         school.students.add(student);
-        
+
         boolean result = school.addStudentToCourseAction(course, student, timeSlot);
-        
+
         //assertFalse(result);
     }
-    
+
     @Test
     public void testAddStudentToCourseActionWhenCourseIsMissingCourseAction() {
-        School school = new School();
-        Student student = new Student();
-        Course course = new Course();
-        TimeSlot timeSlot = new TimeSlot();
-        timeSlot.day = TimeSlot.Day.Saturdy;
-        timeSlot.duration = 2;
-        timeSlot.hour = 10;
-        
-        CourseAction ca = new CourseAction();
-        ca.timeSlot = timeSlot;
-        
+
         school.courses.add(course);
-        //course.actions.add(ca);
+        //course.actions.add(courseAction);
         school.students.add(student);
-        
+
         boolean result = school.addStudentToCourseAction(course, student, timeSlot);
-        
+
         assertFalse(result);
     }
-    
+
     @Test
     public void testAddStudentToCourseActionWhenStudentIsNotInSchool() {
-        School school = new School();
-        Student student = new Student();
-        Course course = new Course();
-        TimeSlot timeSlot = new TimeSlot();
-        timeSlot.day = TimeSlot.Day.Saturdy;
-        timeSlot.duration = 2;
-        timeSlot.hour = 10;
-        
-        CourseAction ca = new CourseAction();
-        ca.timeSlot = timeSlot;
-        
+
         school.courses.add(course);
-        course.actions.add(ca);
+        course.actions.add(courseAction);
         //school.students.add(student);
-        
+
         boolean result = school.addStudentToCourseAction(course, student, timeSlot);
-        
+
         //assertFalse(result);
     }
 }
