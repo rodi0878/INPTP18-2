@@ -47,19 +47,17 @@ public class SchoolTest {
         boolean result = school.addStudentToCourseAction(course, student, timeSlot);
 
         assertTrue(result);
-        // TODO: do also invalid cases...
     }
 
     @Test
     public void testAddStudentToCourseActionWhenCourseIsNotPresent() {
 
-        //school.courses.add(course);
         course.actions.add(courseAction);
         school.students.add(student);
 
         boolean result = school.addStudentToCourseAction(course, student, timeSlot);
 
-        //assertFalse(result);
+        assertFalse(result);
     }
 
     @Test
@@ -79,10 +77,9 @@ public class SchoolTest {
 
         school.courses.add(course);
         course.actions.add(courseAction);
-        //school.students.add(student);
 
         boolean result = school.addStudentToCourseAction(course, student, timeSlot);
 
-        //assertFalse(result);
+        assertFalse(result);
     }
 }
