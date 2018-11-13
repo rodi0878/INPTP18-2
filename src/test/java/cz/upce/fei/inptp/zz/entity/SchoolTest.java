@@ -27,11 +27,7 @@ public class SchoolTest {
         school = new School();
         student = new Student();
         course = new Course();
-        timeSlot = new TimeSlot();
-
-        timeSlot.day = TimeSlot.Day.Saturdy;
-        timeSlot.duration = 2;
-        timeSlot.hour = 10;
+        timeSlot = new TimeSlot(Day.Saturday, 10, 2);
 
         courseAction = new CourseAction();
         courseAction.timeSlot = timeSlot;
