@@ -1,33 +1,32 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package cz.upce.fei.inptp.zz.entity;
 
 import java.util.Objects;
 
-/**
- *
- * @author Roman
- */
 public class TimeSlot {
     
-    // TODO: handle this on different place, use standard library?
-    public enum Day {
-        Monday,
-        Tuesday,
-        Wednesday,
-        Thursday,
-        Friday,
-        Saturdy,
-        Sundy
-    }
+    private Day day;
+    private int hour;
     
-    Day day;
-    int hour;
     // TODO: is this clear?
-    int duration;
+    private int duration;
+    
+    public TimeSlot(Day day, int hour, int duration) {
+        this.day = day;
+        this.hour = hour;
+        this.duration = duration;
+    }
+
+    public Day getDay() {
+        return day;
+    }
+
+    public int getHour() {
+        return hour;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
 
     @Override
     public int hashCode() {
@@ -50,13 +49,13 @@ public class TimeSlot {
             return false;
         }
         final TimeSlot other = (TimeSlot) obj;
-        if (this.hour != other.hour) {
+        if (this.hour != other.getHour()) {
             return false;
         }
-        if (this.duration != other.duration) {
+        if (this.duration != other.getDuration()) {
             return false;
         }
-        if (this.day != other.day) {
+        if (this.day != other.getDay()) {
             return false;
         }
         return true;
