@@ -13,11 +13,17 @@ import java.util.List;
  * @author Roman
  */
 public class Student extends Person {
-    List<CourseAction> actions;
+    private List<CourseAction> actions;
 
     public Student() {
         actions = new ArrayList<>();
     }
-    
-    
+
+    public List<CourseAction> getActions() {
+        return actions;
+    }
+
+    public void setActions(List<CourseAction> actions) {
+        this.actions = actions;
+    }
 }

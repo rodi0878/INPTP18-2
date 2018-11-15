@@ -6,12 +6,11 @@ import java.util.List;
 /**
  * @author Roman
  */
-// TODO: fix encapsulation on all classes
 public class School /*implements ISchool*/ {
 
-  List<Course> courses;
-  List<Teacher> teachers;
-  List<Student> students;
+  private List<Course> courses;
+  private List<Teacher> teachers;
+  private List<Student> students;
 
   public School() {
     courses = new ArrayList<>();
@@ -33,14 +32,39 @@ public class School /*implements ISchool*/ {
       return false;
     }
 
-    for (CourseAction action : course.actions) {
-      if (action.timeSlot.equals(timeSlot)) {
-        action.students.add(student);
-        student.actions.add(action);
+    for (CourseAction action : course.getActions()) {
+      if (action.getTimeSlot().equals(timeSlot)) {
+        action.getStudents().add(student);
+        student.getActions().add(action);
 
         return true;
       }
     }
     return false;
   }
+
+    public List<Course> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(List<Course> courses) {
+        this.courses = courses;
+    }
+
+    public List<Teacher> getTeachers() {
+        return teachers;
+    }
+
+    public void setTeachers(List<Teacher> teachers) {
+        this.teachers = teachers;
+    }
+
+    public List<Student> getStudents() {
+        return students;
+    }
+
+    public void setStudents(List<Student> students) {
+        this.students = students;
+    }
+
 }
