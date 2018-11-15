@@ -13,14 +13,15 @@ import java.util.List;
  * @author Roman
  */
 public class CourseAction {
+
     private Course course;
     private TimeSlot timeSlot;
     private Teacher teacher;
-    private  List<Student> students;
+    private List<Student> students;
     private ActionType type;
 
     public CourseAction() {
-        students = new ArrayList<>();                
+        students = new ArrayList<>();
     }
 
     public Course getCourse() {
@@ -42,7 +43,5 @@ public class CourseAction {
     public ActionType getType() {
         return type;
     }
-    
-    
-    
+
 }
