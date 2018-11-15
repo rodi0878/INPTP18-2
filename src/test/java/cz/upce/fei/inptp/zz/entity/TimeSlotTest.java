@@ -1,44 +1,56 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package cz.upce.fei.inptp.zz.entity;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-/**
- *
- * @author Roman
- */
 public class TimeSlotTest {
     
     @Test
     public void testSameSlotsShouldBeEqual() {
-        TimeSlot ta = new TimeSlot();
-        TimeSlot tb = new TimeSlot();
-        
-        tb.day = ta.day = TimeSlot.Day.Friday;
-        tb.duration = ta.duration = 7;
-        tb.hour = ta.hour = 8;
+        Day day = Day.Friday;
+        int hour = 8;
+        int duration = 7;
+        TimeSlot ta = new TimeSlot(day, hour, duration);
+        TimeSlot tb = new TimeSlot(day, hour, duration);
         
         assertEquals(ta, tb);
     }
     
     @Test
-    public void testDifferentSlotsShouldNotBeEqual() {
-        TimeSlot ta = new TimeSlot();
-        TimeSlot tb = new TimeSlot();
-            
-        tb.day = ta.day = TimeSlot.Day.Friday;
-        tb.duration = 1;
-        ta.duration = 2;
-        tb.hour = ta.hour = 8;
+    public void testDifferentDaysShouldNotBeEqual() {
+        Day friday = Day.Friday;
+        Day sunday = Day.Sunday;
+        int hour = 8;
+        int duration = 7;
+        
+        TimeSlot ta = new TimeSlot(friday, hour, duration);
+        TimeSlot tb = new TimeSlot(sunday, hour, duration);
+        
+        assertNotEquals(ta, tb);
+    }
+    
+    @Test
+    public void testDifferentHoursShouldNotBeEqual() {
+        Day day = Day.Friday;
+        int hour_a = 8;
+        int hour_b = 12;
+        int duration = 7;
+        
+        TimeSlot ta = new TimeSlot(day, hour_a, duration);
+        TimeSlot tb = new TimeSlot(day, hour_b, duration);
+        
+        assertNotEquals(ta, tb);
+    }
+    
+    @Test
+    public void testDifferentDurationsShouldNotBeEqual() {
+        Day day = Day.Friday;
+        int hour = 8;
+        int duration_a = 7;
+        int duration_b = 12;
+        
+        TimeSlot ta = new TimeSlot(day, hour, duration_a);
+        TimeSlot tb = new TimeSlot(day, hour, duration_b);
         
         assertNotEquals(ta, tb);
     }
