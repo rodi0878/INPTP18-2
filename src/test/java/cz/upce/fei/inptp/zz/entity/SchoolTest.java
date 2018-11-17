@@ -30,15 +30,15 @@ public class SchoolTest {
         timeSlot = new TimeSlot(Day.Saturday, 10, 2);
 
         courseAction = new CourseAction();
-        courseAction.timeSlot = timeSlot;
+        courseAction.setTimeSlot(timeSlot);
     }
 
     @Test
     public void testAddStudentToCourseAction() {
 
-        school.courses.add(course);
-        course.actions.add(courseAction);
-        school.students.add(student);
+        school.getCourses().add(course);
+        course.getActions().add(courseAction);
+        school.getStudents().add(student);
 
         boolean result = school.addStudentToCourseAction(course, student, timeSlot);
 
@@ -50,8 +50,8 @@ public class SchoolTest {
     public void testAddStudentToCourseActionWhenCourseIsNotPresent() {
 
         //school.courses.add(course);
-        course.actions.add(courseAction);
-        school.students.add(student);
+        course.getActions().add(courseAction);
+        school.getStudents().add(student);
 
         boolean result = school.addStudentToCourseAction(course, student, timeSlot);
 
@@ -61,9 +61,9 @@ public class SchoolTest {
     @Test
     public void testAddStudentToCourseActionWhenCourseIsMissingCourseAction() {
 
-        school.courses.add(course);
+        school.getCourses().add(course);
         //course.actions.add(courseAction);
-        school.students.add(student);
+        school.getStudents().add(student);
 
         boolean result = school.addStudentToCourseAction(course, student, timeSlot);
 
@@ -73,8 +73,8 @@ public class SchoolTest {
     @Test
     public void testAddStudentToCourseActionWhenStudentIsNotInSchool() {
 
-        school.courses.add(course);
-        course.actions.add(courseAction);
+        school.getCourses().add(course);
+        course.getActions().add(courseAction);
         //school.students.add(student);
 
         boolean result = school.addStudentToCourseAction(course, student, timeSlot);
