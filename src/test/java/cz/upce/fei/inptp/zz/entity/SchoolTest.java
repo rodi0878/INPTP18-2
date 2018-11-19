@@ -81,4 +81,84 @@ public class SchoolTest {
 
         //assertFalse(result);
     }
+
+    @Test
+    public void testAddCourse() {
+        Teacher teacher = new Teacher();
+        CourseAction courseAction2 = new CourseAction();
+        TimeSlot timeSlot2 = new TimeSlot(Day.Saturday, 10, 5);
+        Course course2 = new Course();
+
+//        school.getCourses().add(course);
+        school.getCourses().add(course2);
+        course.getActions().add(courseAction);
+        course2.getActions().add(courseAction2);
+        school.getStudents().add(student);
+        courseAction.getStudents().add(student);
+        courseAction2.getStudents().add(student);
+        courseAction2.setTimeSlot(timeSlot2);
+        school.getTeachers().add(teacher);
+        courseAction.setTeacher(teacher);
+        courseAction2.setTeacher(teacher);
+
+        school.addCourse(course);
+
+        //assertFalse(result);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testAddCourseWhenTheCourseIsAlreadyPresentAtSchool() {
+        school.getCourses().add(course);
+
+        school.addCourse(course);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testAddCourseWhenStudentIsNotPresentAtSchool() {
+
+        course.getActions().add(courseAction);
+        courseAction.getStudents().add(student);
+//        school.getStudents().add(student);
+
+        school.addCourse(course);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testAddCourseWhenTeacherHasAnotherActionAtThisTime() {
+
+        Teacher teacher = new Teacher();
+        CourseAction courseAction2 = new CourseAction();
+        Course course2 = new Course();
+        school.getCourses().add(course2);
+        course.getActions().add(courseAction);
+        course2.getActions().add(courseAction2);
+        courseAction2.setTimeSlot(timeSlot);
+        school.getTeachers().add(teacher);
+        courseAction.setTeacher(teacher);
+        courseAction2.setTeacher(teacher);
+
+        school.addCourse(course);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testAddCourseWhenStudentHasAnotherActionAtThisTime() {
+        Teacher teacher = new Teacher();
+        Teacher teacher2 = new Teacher();
+        CourseAction courseAction2 = new CourseAction();        
+        Course course2 = new Course();
+        school.getCourses().add(course2);
+        course.getActions().add(courseAction);
+        course2.getActions().add(courseAction2);
+        school.getStudents().add(student);
+        courseAction.getStudents().add(student);
+        courseAction2.getStudents().add(student);
+        courseAction2.setTimeSlot(timeSlot);
+        school.getTeachers().add(teacher);
+        school.getTeachers().add(teacher2);
+        courseAction.setTeacher(teacher);
+        courseAction2.setTeacher(teacher2);
+
+        school.addCourse(course);
+    }
+
 }

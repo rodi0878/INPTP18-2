@@ -66,5 +66,83 @@ public class School /*implements ISchool*/ {
     public void setStudents(List<Student> students) {
         this.students = students;
     }
+    
+    private boolean checkIsStudentAtSchool(Student student) {
+        for (Student studentOfSchool : students) {
+            if (studentOfSchool.equals(student)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
+    private boolean checkIsCourseAtSchool(Course course) {
+        for (Course courseOfSchool : courses) {
+            if (courseOfSchool.equals(course)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean checkAllStudentsOfCourseArePresentAtSchool(Course newCourse) {
+        for (CourseAction courseAction : newCourse.getActions()) {
+            for (Student student : courseAction.getStudents()) {
+                if (!checkIsStudentAtSchool(student)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    private boolean checkNoCollisionsWithTeachersAndTimeSlot(Course newCourse) {
+        for (Course course : courses) {
+            for (CourseAction courseAction : course.getActions()) {
+                for (CourseAction newCourseAction : newCourse.getActions()) {
+                    if (courseAction.getTeacher().equals(newCourseAction.getTeacher())
+                            && courseAction.getTimeSlot().equals(newCourseAction.getTimeSlot())) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+    
+    private boolean checkNoCollisionsWithStudentsAndTimeSlot(Course newCourse) {
+        for (Course course : courses) {
+            for (CourseAction courseAction : course.getActions()) {
+                for (CourseAction newCourseAction : newCourse.getActions()) {
+                    for (Student student : courseAction.getStudents()) {
+                        for (Student studentOfNewCourseAction : newCourseAction.getStudents()) {
+                            if (student.equals(studentOfNewCourseAction)
+                                    && courseAction.getTimeSlot().equals(newCourseAction.getTimeSlot())) {
+
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return true;
+    }
+    
+    public void addCourse(Course newCourse) {
+        if (checkIsCourseAtSchool(newCourse)) {
+            throw new IllegalArgumentException("The course is already present at school");
+        }
+        if (!checkAllStudentsOfCourseArePresentAtSchool(newCourse)) {
+            throw new IllegalArgumentException("Student is not present at school");
+        }
+        if (!checkNoCollisionsWithTeachersAndTimeSlot(newCourse)) {
+            throw new IllegalArgumentException("Teacher has another action at this time");
+        }
+        if (!checkNoCollisionsWithStudentsAndTimeSlot(newCourse)) {
+            throw new IllegalArgumentException("Student has another action at this time");
+        }
+        courses.add(newCourse);
+    }  
+    
 }
