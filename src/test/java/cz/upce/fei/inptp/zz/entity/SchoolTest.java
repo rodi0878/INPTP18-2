@@ -31,6 +31,7 @@ public class SchoolTest {
 
         courseAction = new CourseAction();
         courseAction.setTimeSlot(timeSlot);
+        courseAction.setCourse(course);
     }
 
     @Test
@@ -80,5 +81,30 @@ public class SchoolTest {
         boolean result = school.addStudentToCourseAction(course, student, timeSlot);
 
         //assertFalse(result);
+    }
+
+    @Test
+    public void testAddStudentToCourseActionWhenCapacityIsReached() {
+        course.setCourseCapacity(1);
+        school.getCourses().add(course);
+        course.getActions().add(courseAction);
+        school.getStudents().add(student);
+        school.getStudents().add(student);
+        courseAction.getStudents().add(student);
+        courseAction.getStudents().add(student);
+        
+        boolean result = school.addStudentToCourseAction(course, student, timeSlot);
+        assertFalse(result);
+    }
+
+    @Test
+    public void testAddStudentToCourseActionWhenCapacityIsNotReached() {
+        course.setCourseCapacity(2);
+        school.getCourses().add(course);
+        course.getActions().add(courseAction);
+        school.getStudents().add(student);
+        courseAction.getStudents().add(student);
+        boolean result = school.addStudentToCourseAction(course, student, timeSlot);
+        assertTrue(result);
     }
 }

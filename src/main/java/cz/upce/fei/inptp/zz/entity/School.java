@@ -8,40 +8,48 @@ import java.util.List;
  */
 public class School /*implements ISchool*/ {
 
-  private List<Course> courses;
-  private List<Teacher> teachers;
-  private List<Student> students;
+    private List<Course> courses;
+    private List<Teacher> teachers;
+    private List<Student> students;
 
-  public School() {
-    courses = new ArrayList<>();
-    teachers = new ArrayList<>();
-    students = new ArrayList<>();
-  }
-
-  // TODO: check if specific timeSlot action is available in course
-  // TODO: check if course action has a free capacity for new student
-  public boolean addStudentToCourseAction(Course course, Student student, TimeSlot timeSlot) {
-
-    //check if student is present at school
-    if (students.stream().noneMatch(studentAtSchool -> studentAtSchool.equals(student))) {
-      return false;
+    public School() {
+        courses = new ArrayList<>();
+        teachers = new ArrayList<>();
+        students = new ArrayList<>();
     }
 
-    //check if course is present at school
-    if (courses.stream().noneMatch(courseAtSchool -> courseAtSchool.equals(course))) {
-      return false;
-    }
+    // TODO: check if specific timeSlot action is available in course
+    public boolean addStudentToCourseAction(Course course, Student student, TimeSlot timeSlot) {
 
-    for (CourseAction action : course.getActions()) {
-      if (action.getTimeSlot().equals(timeSlot)) {
-        action.getStudents().add(student);
-        student.getActions().add(action);
+        //check if student is present at school
+        if (students.stream().noneMatch(studentAtSchool -> studentAtSchool.equals(student))) {
+            return false;
+        }
 
-        return true;
-      }
+        //check if course is present at school
+        if (courses.stream().noneMatch(courseAtSchool -> courseAtSchool.equals(course))) {
+            return false;
+        }
+
+        //check if course action has a free capacity for new student  
+        for (CourseAction courseAction : course.getActions()) {
+            if (courseAction.getCourse().equals(course)) {
+                if (courseAction.getStudents().size() > course.getCourseCapacity()) {
+                    return false;
+                }
+            }
+        }
+
+        for (CourseAction action : course.getActions()) {
+            if (action.getTimeSlot().equals(timeSlot)) {
+                action.getStudents().add(student);
+                student.getActions().add(action);
+
+                return true;
+            }
+        }
+        return false;
     }
-    return false;
-  }
 
     public List<Course> getCourses() {
         return courses;
