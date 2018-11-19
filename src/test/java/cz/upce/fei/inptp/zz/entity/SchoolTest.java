@@ -105,6 +105,12 @@ public class SchoolTest {
 
         //assertFalse(result);
     }
+    
+    @Test(expected = NullPointerException.class)
+    public void testAddCourseWhenCourseIsNull() {
+        
+        school.addCourse(null);
+    }
 
     @Test(expected = IllegalArgumentException.class)
     public void testAddCourseWhenTheCourseIsAlreadyPresentAtSchool() {
