@@ -36,7 +36,7 @@ public class SchoolTest {
     @Test
     public void testAddStudentToCourseAction() {
 
-        school.getCourses().add(course);
+        school.getCoursesList().add(course);
         course.getActions().add(courseAction);
         school.getStudents().add(student);
 
@@ -61,7 +61,7 @@ public class SchoolTest {
     @Test
     public void testAddStudentToCourseActionWhenCourseIsMissingCourseAction() {
 
-        school.getCourses().add(course);
+        school.getCoursesList().add(course);
         //course.actions.add(courseAction);
         school.getStudents().add(student);
 
@@ -73,12 +73,24 @@ public class SchoolTest {
     @Test
     public void testAddStudentToCourseActionWhenStudentIsNotInSchool() {
 
-        school.getCourses().add(course);
+        school.getCoursesList().add(course);
         course.getActions().add(courseAction);
         school.getStudents().add(new Student());
 
         boolean result = school.addStudentToCourseAction(course, student, timeSlot);
 
         assertEquals(false, result);
+    }
+    
+    @Test
+    public void testAddStudent() {
+        Student student = new Student();
+        
+        boolean isStudentInSchool = school.getStudents().stream().anyMatch((existingStudent) -> existingStudent.equals(student));
+        assertEquals(false, isStudentInSchool);
+        
+        school.addStudent(student);
+        isStudentInSchool = school.getStudents().stream().anyMatch((existingStudent) -> existingStudent.equals(student));
+        assertEquals(true, isStudentInSchool);
     }
 }
