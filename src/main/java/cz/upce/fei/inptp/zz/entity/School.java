@@ -76,7 +76,8 @@ public class School implements ISchool {
 
     @Override
     public boolean addCourseAction(Course course, CourseAction courseAction) {
-        return course.getActions().add(courseAction);
+        return courses.stream().filter((c) -> c.equals(course))
+                .findFirst().get().getActions().add(courseAction);
     }
 
     @Override
