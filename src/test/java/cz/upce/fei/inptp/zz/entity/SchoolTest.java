@@ -129,5 +129,17 @@ public class SchoolTest {
         assertEquals(true, isTeacherInSchool);
     }
     
-    
+    @Test
+    public void testAddCourse() {
+        Course course = new Course();
+        
+        boolean isCourseInSchool = school.getCoursesList().stream()
+                .anyMatch((t) -> t.equals(course));
+        assertEquals(false, isCourseInSchool);
+        
+        school.addCourse(course);
+        isCourseInSchool = school.getCoursesList().stream()
+                .anyMatch((t) -> t.equals(course));
+        assertEquals(true, isCourseInSchool);
+    }
 }

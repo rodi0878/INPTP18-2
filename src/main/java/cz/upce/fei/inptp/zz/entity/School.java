@@ -71,7 +71,7 @@ public class School implements ISchool {
 
     @Override
     public void addCourse(Course course) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        courses.add(course);
     }
 
     @Override
