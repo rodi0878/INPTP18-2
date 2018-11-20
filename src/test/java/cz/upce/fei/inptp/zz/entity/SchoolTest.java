@@ -114,4 +114,20 @@ public class SchoolTest {
                 .stream().anyMatch((ca) -> ca.equals(courseAction));
         assertEquals(true, isCourseActionInSchoolCourses);
     }
+    
+    @Test
+    public void testAddTeacher() {
+        Teacher teacher = new Teacher();
+        
+        boolean isTeacherInSchool = school.getTeachers().stream()
+                .anyMatch((t) -> t.equals(teacher));
+        assertEquals(false, isTeacherInSchool);
+        
+        school.addTeacher(teacher);
+        isTeacherInSchool = school.getTeachers().stream()
+                .anyMatch((t) -> t.equals(teacher));
+        assertEquals(true, isTeacherInSchool);
+    }
+    
+    
 }
