@@ -75,10 +75,10 @@ public class SchoolTest {
 
         school.getCourses().add(course);
         course.getActions().add(courseAction);
-        //school.students.add(student);
+        school.getStudents().add(new Student());
 
         boolean result = school.addStudentToCourseAction(course, student, timeSlot);
 
-        //assertFalse(result);
+        assertEquals(false, result);
     }
 }
