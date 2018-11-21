@@ -98,7 +98,7 @@ public class SchoolTest {
         assertEquals(course, iterator.next());
     }
 
-    @Test(expected = Exception.class)
+    @Test(expected = School.DuplicateCoursesException.class)
     public void testAddDuplicityCourseToSchool() {
         school.addCourse(course);
         school.addCourse(course);
