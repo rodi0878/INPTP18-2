@@ -5,7 +5,6 @@
  */
 package cz.upce.fei.inptp.zz.entity;
 
-import java.util.LinkedList;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -85,61 +84,41 @@ public class SchoolTest {
     
     @Test
     public void testAddStudent() {
+        School school = new School();
         Student student = new Student();
         
-        boolean isStudentInSchool = school.getStudents().stream()
-                .anyMatch((existingStudent) -> existingStudent.equals(student));
-        assertEquals(false, isStudentInSchool);
-        
         school.addStudent(student);
-        isStudentInSchool = school.getStudents().stream()
-                .anyMatch((existingStudent) -> existingStudent.equals(student));
-        assertEquals(true, isStudentInSchool);
+        
+        assertEquals(student, school.getStudents().get(0));
     }
     
     @Test
     public void testAddCourseAction() {
-        CourseAction courseAction = new CourseAction();
         Course course = new Course();
+        CourseAction courseAction = new CourseAction();
+        School school = new School();
+        
         school.getCoursesList().add(course);
-        
-        boolean isCourseActionInSchoolCourses = school.getCoursesList().stream()
-                .filter((c) -> c.equals(course)).findFirst().get().getActions()
-                .stream().anyMatch((ca) -> ca.equals(courseAction));
-        assertEquals(false, isCourseActionInSchoolCourses);
-        
         school.addCourseAction(course, courseAction);
-        isCourseActionInSchoolCourses = school.getCoursesList().stream()
-                .filter((c) -> c.equals(course)).findFirst().get().getActions()
-                .stream().anyMatch((ca) -> ca.equals(courseAction));
-        assertEquals(true, isCourseActionInSchoolCourses);
+        
+        assertEquals(courseAction, school.getCoursesList().get(0).getActions().get(0));
     }
     
     @Test
     public void testAddTeacher() {
+        School school = new School();
         Teacher teacher = new Teacher();
         
-        boolean isTeacherInSchool = school.getTeachers().stream()
-                .anyMatch((t) -> t.equals(teacher));
-        assertEquals(false, isTeacherInSchool);
-        
         school.addTeacher(teacher);
-        isTeacherInSchool = school.getTeachers().stream()
-                .anyMatch((t) -> t.equals(teacher));
-        assertEquals(true, isTeacherInSchool);
+        assertEquals(teacher, school.getTeachers().get(0));
     }
     
     @Test
     public void testAddCourse() {
+        School school = new School();
         Course course = new Course();
         
-        boolean isCourseInSchool = school.getCoursesList().stream()
-                .anyMatch((t) -> t.equals(course));
-        assertEquals(false, isCourseInSchool);
-        
         school.addCourse(course);
-        isCourseInSchool = school.getCoursesList().stream()
-                .anyMatch((t) -> t.equals(course));
-        assertEquals(true, isCourseInSchool);
+        assertEquals(course, school.getCoursesList().get(0));
     }
 }
