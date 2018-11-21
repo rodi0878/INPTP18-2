@@ -71,7 +71,7 @@ public class School implements ISchool {
             courses.add(course);
             return;
         }
-        throw new RuntimeException("Course is already added to school");
+        throw new DuplicateCoursesException("Course is already added to school");
     }
 
     @Override
@@ -98,5 +98,12 @@ public class School implements ISchool {
     @Override
     public Iterator<Course> getCourses() {
         return courses.iterator();
+    }
+
+    public class DuplicateCoursesException extends RuntimeException {
+
+        public DuplicateCoursesException(String message) {
+            super(message);
+        }
     }
 }
