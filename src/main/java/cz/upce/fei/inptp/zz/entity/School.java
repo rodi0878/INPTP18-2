@@ -44,7 +44,6 @@ public class School implements ISchool {
         return false;
     }
 
-
     public List<Course> getCoursesList() {
         return courses;
     }
@@ -94,5 +93,66 @@ public class School implements ISchool {
     public Iterator<Course> getCourses() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+  
+    private boolean checkIsStudentAtSchool(Student student) {
+        for (Student studentOfSchool : students) {
+            if (studentOfSchool.equals(student)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
+    private boolean checkIsCourseAtSchool(Course course) {
+        for (Course courseOfSchool : courses) {
+            if (courseOfSchool.equals(course)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean checkAllStudentsOfCourseArePresentAtSchool(Course newCourse) {
+        for (CourseAction courseAction : newCourse.getActions()) {
+            for (Student student : courseAction.getStudents()) {
+                if (!checkIsStudentAtSchool(student)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    private boolean checkNoCollisionsWithTeachersAndTimeSlot(Course newCourse) {
+        for (Course course : courses) {
+            for (CourseAction courseAction : course.getActions()) {
+                for (CourseAction newCourseAction : newCourse.getActions()) {
+                    if (courseAction.getTeacher().equals(newCourseAction.getTeacher())
+                            && courseAction.getTimeSlot().equals(newCourseAction.getTimeSlot())) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+    private boolean checkNoCollisionsWithStudentsAndTimeSlot(Course newCourse) {
+        for (Course course : courses) {
+            for (CourseAction courseAction : course.getActions()) {
+                for (CourseAction newCourseAction : newCourse.getActions()) {
+                    for (Student student : courseAction.getStudents()) {
+                        for (Student studentOfNewCourseAction : newCourseAction.getStudents()) {
+                            if (student.equals(studentOfNewCourseAction)
+                                    && courseAction.getTimeSlot().equals(newCourseAction.getTimeSlot())) {
+
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return true;
+    }
 }
