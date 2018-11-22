@@ -16,8 +16,7 @@ public class Course {
     private String title;
     private String description;
     private List<CourseAction> actions;
-    private int courseCapacity;
-
+    
     public Course() {
         actions = new ArrayList<>();
     }
@@ -46,11 +45,4 @@ public class Course {
         this.actions = actions;
     }
 
-    public int getCourseCapacity() {
-        return courseCapacity;
-    }
-
-    public void setCourseCapacity(int courseCapacity) {
-        this.courseCapacity = courseCapacity;
-    }
 }

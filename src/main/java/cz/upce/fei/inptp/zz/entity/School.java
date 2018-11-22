@@ -31,13 +31,12 @@ public class School /*implements ISchool*/ {
             return false;
         }
 
-        //check if course action has a free capacity for new student  
-        for (CourseAction courseAction : course.getActions()) {
-            if (courseAction.getCourse().equals(course)) {
-                if (courseAction.getStudents().size() > course.getCourseCapacity()) {
-                    return false;
-                }
-            }
+        //check if course action has a free capacity for new student
+        if (!course.getActions().stream()
+                .filter((courseAction) -> (courseAction.getTimeSlot()
+                .equals(timeSlot)))
+                .noneMatch((courseAction) -> (courseAction.getStudents().size() >= courseAction.getCourseCapacity()))) {
+            return false;
         }
 
         for (CourseAction action : course.getActions()) {
