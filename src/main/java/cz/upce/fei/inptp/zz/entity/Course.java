@@ -16,7 +16,7 @@ public class Course {
     private String title;
     private String description;
     private List<CourseAction> actions;
-
+    
     public Course() {
         actions = new ArrayList<>();
     }
@@ -44,5 +44,5 @@ public class Course {
     public void setActions(List<CourseAction> actions) {
         this.actions = actions;
     }
-    
+
 }

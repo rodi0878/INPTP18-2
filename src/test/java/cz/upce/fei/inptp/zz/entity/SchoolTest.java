@@ -31,6 +31,7 @@ public class SchoolTest {
 
         courseAction = new CourseAction();
         courseAction.setTimeSlot(timeSlot);
+        courseAction.setCourseCapacity(3);
     }
 
     @Test

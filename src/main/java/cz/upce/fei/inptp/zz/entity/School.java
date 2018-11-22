@@ -19,7 +19,6 @@ public class School /*implements ISchool*/ {
     }
 
     // TODO: check if specific timeSlot action is available in course
-    // TODO: check if course action has a free capacity for new student
     public boolean addStudentToCourseAction(Course course, Student student, TimeSlot timeSlot) {
 
         //check if student is present at school

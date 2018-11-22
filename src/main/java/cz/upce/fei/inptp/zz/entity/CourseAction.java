@@ -18,10 +18,11 @@ public class CourseAction {
     private Teacher teacher;
     private List<Student> students;
     private ActionType type;
+    private int courseCapacity;
 
     public CourseAction() {
         students = new ArrayList<>();
-                
+
     }
 
     public Course getCourse() {
@@ -63,4 +64,13 @@ public class CourseAction {
     public void setType(ActionType type) {
         this.type = type;
     }
+
+    public int getCourseCapacity() {
+        return courseCapacity;
+    }
+
+    public void setCourseCapacity(int courseCapacity) {
+        this.courseCapacity = courseCapacity;
+    }
+
 }
