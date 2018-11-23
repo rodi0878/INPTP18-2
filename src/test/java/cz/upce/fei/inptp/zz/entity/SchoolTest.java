@@ -75,9 +75,8 @@ public class SchoolTest {
 
         school.getCoursesList().add(course);
         course.getActions().add(courseAction);
-        school.getStudents().add(new Student());
 
-        boolean result = school.addStudentToCourseAction(course, student, timeSlot);
+        boolean result = school.addStudentToCourseAction(course, new Student(), timeSlot);
 
         assertEquals(false, result);
     }
