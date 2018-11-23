@@ -42,6 +42,24 @@ public class School /*implements ISchool*/ {
         }
         return false;
     }
+    
+    public void addStudent(Student newStudent){
+        if(!checkIsStudentAtSchool(newStudent))
+            students.add(newStudent);
+    }
+    
+    public void removeStudent(Student studentToBeRemoved){
+        if(checkIsStudentAtSchool(studentToBeRemoved)){
+            int studentPositionInList = students.indexOf(studentToBeRemoved);
+            Student removedStudent = students.remove(studentPositionInList);
+            
+            removedStudent.getActions().forEach((ca) -> {
+                ca.getStudents().remove(removedStudent);
+            });
+            
+            removedStudent.getActions().clear();
+        }
+    }
 
     public List<Course> getCourses() {
         return courses;
