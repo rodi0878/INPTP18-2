@@ -5,6 +5,9 @@
  */
 package cz.upce.fei.inptp.zz.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -251,5 +254,39 @@ public class SchoolTest {
         school.removeStudent(student);
        
         assertEquals(0, courseAction.getStudents().size());
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void testAddTeacherIfTeacherAlreadyExist(){
+        List<Teacher> teachers = new ArrayList<>();
+        
+        teachers.add(new Teacher("123"));
+        
+        school.setTeachers(teachers);
+        
+        school.addTeacher(new Teacher("123"));
+        
+    }
+    
+    @Test
+    public void testAddTeacherIfTeacherNotAlreadyExist(){
+        List<Teacher> teachers = new ArrayList<>();
+        
+        Teacher teacher1 = new Teacher("1234");
+        
+        Teacher teacher2 = new Teacher("123");
+        
+        teachers.add(teacher1);
+        
+        school.setTeachers(teachers);
+        
+        school.addTeacher(teacher2);
+        
+        List<Teacher> list = school.getTeachers();
+        
+        Assert.assertTrue(list.get(0).equals(teacher1));
+        
+        Assert.assertTrue(list.get(1).equals(teacher2));
+        
     }
 }
