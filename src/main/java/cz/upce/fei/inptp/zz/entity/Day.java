@@ -10,11 +10,11 @@ package cz.upce.fei.inptp.zz.entity;
  * @author Martin Volenec / st46661
  */
 public enum Day {
-    Monday,
-    Tuesday,
-    Wednesday,
-    Thursday,
-    Friday,
-    Saturday,
-    Sunday
+    MONDAY,
+    TUESDAY,
+    WEDNESDAY,
+    THURSDAY,
+    FRIDAY,
+    SATURDAY,
+    SUNDAY
 }

@@ -10,7 +10,7 @@ package cz.upce.fei.inptp.zz.entity;
  * @author Roman
  */
 public enum ActionType {
-    Lecture,
-    Exercise,
-    Seminar
+    LECTURE,
+    EXERCISE,
+    SEMINAR
 }

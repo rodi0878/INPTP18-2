@@ -27,7 +27,7 @@ public class SchoolTest {
         school = new School();
         student = new Student();
         course = new Course();
-        timeSlot = new TimeSlot(Day.Saturday, 10, 2);
+        timeSlot = new TimeSlot(Day.SATURDAY, 10, 2);
 
         courseAction = new CourseAction();
         courseAction.setTimeSlot(timeSlot);
@@ -86,7 +86,7 @@ public class SchoolTest {
     public void testAddCourse() {
         Teacher teacher = new Teacher();
         CourseAction courseAction2 = new CourseAction();
-        TimeSlot timeSlot2 = new TimeSlot(Day.Saturday, 10, 5);
+        TimeSlot timeSlot2 = new TimeSlot(Day.SATURDAY, 10, 5);
         Course course2 = new Course();
 
 //        school.getCourses().add(course);
