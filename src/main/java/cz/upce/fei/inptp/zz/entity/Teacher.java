@@ -20,6 +20,12 @@ public class Teacher extends Person {
         actions = new ArrayList<>();
     }
 
+    public Teacher(String ID) {
+        super(ID);
+        this.actions = new ArrayList();
+    }
+    
+     
     public List<CourseAction> getActions() {
         return actions;
     }

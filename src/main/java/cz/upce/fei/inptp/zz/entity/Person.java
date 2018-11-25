@@ -14,6 +14,16 @@ import java.util.Objects;
 public class Person {
     private String ID;
 
+    public Person(String ID) {
+        this.ID = ID;
+    }
+    
+    public Person() {
+        
+    }
+    
+    
+
     public String getID() {
         return ID;
     }
