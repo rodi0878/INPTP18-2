@@ -2,6 +2,7 @@ package cz.upce.fei.inptp.zz.entity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author Roman
@@ -169,6 +170,9 @@ public class School /*implements ISchool*/ {
     }
 
     public void addTeacher(Teacher teacher) {
+        if (Objects.isNull(teacher)) {
+            throw new NullPointerException();
+        }
         if (teachers.contains(teacher)) {
             throw new IllegalArgumentException("The teacher is already existing");
         }

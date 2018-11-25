@@ -289,4 +289,10 @@ public class SchoolTest {
         Assert.assertTrue(list.get(1).equals(teacher2));
         
     }
+    
+    @Test(expected = NullPointerException.class)
+    public void testAddTeacherWhenTeacherIsNull() {
+        
+        school.addTeacher(null);
+    }
 }
