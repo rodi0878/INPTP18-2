@@ -12,6 +12,7 @@ public class School implements ISchool {
     private List<Course> courses;
     private List<Teacher> teachers;
     private List<Student> students;
+    private List<Room> rooms;
 
     public School() {
         courses = new ArrayList<>();
@@ -42,6 +43,15 @@ public class School implements ISchool {
                 return true;
             }
         }
+                
+        for (CourseAction action : course.getActions()) {
+            if (action.getRoom().getRoomCapacity() > action.getStudents().size()) {
+                action.getStudents().add(student);
+                student.getActions().add(action);
+                return true;
+            }
+        }
+               
         return false;
     }
     
@@ -123,7 +133,15 @@ public class School implements ISchool {
     public Iterator<Course> getCourses() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-  
+
+    public List<Room> getRooms() {
+        return rooms;
+    }
+
+    public void setRooms(List<Room> rooms) {
+        this.rooms = rooms;
+    }
+    
     private boolean checkIsStudentAtSchool(Student student) {
         for (Student studentOfSchool : students) {
             if (studentOfSchool.equals(student)) {
