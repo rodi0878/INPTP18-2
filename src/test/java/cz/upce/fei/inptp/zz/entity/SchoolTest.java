@@ -36,7 +36,7 @@ public class SchoolTest {
     @Test
     public void testAddStudentToCourseAction() {
 
-        school.getCourses().add(course);
+        school.getCoursesList().add(course);
         course.getActions().add(courseAction);
         school.getStudents().add(student);
 
@@ -61,7 +61,7 @@ public class SchoolTest {
     @Test
     public void testAddStudentToCourseActionWhenCourseIsMissingCourseAction() {
 
-        school.getCourses().add(course);
+        school.getCoursesList().add(course);
         //course.actions.add(courseAction);
         school.getStudents().add(student);
 
@@ -73,98 +73,52 @@ public class SchoolTest {
     @Test
     public void testAddStudentToCourseActionWhenStudentIsNotInSchool() {
 
-        school.getCourses().add(course);
+        school.getCoursesList().add(course);
         course.getActions().add(courseAction);
-        //school.students.add(student);
 
-        boolean result = school.addStudentToCourseAction(course, student, timeSlot);
+        boolean result = school.addStudentToCourseAction(course, new Student(), timeSlot);
 
-        //assertFalse(result);
-    }
-
-    @Test
-    public void testAddCourse() {
-        Teacher teacher = new Teacher();
-        CourseAction courseAction2 = new CourseAction();
-        TimeSlot timeSlot2 = new TimeSlot(Day.Saturday, 10, 5);
-        Course course2 = new Course();
-
-//        school.getCourses().add(course);
-        school.getCourses().add(course2);
-        course.getActions().add(courseAction);
-        course2.getActions().add(courseAction2);
-        school.getStudents().add(student);
-        courseAction.getStudents().add(student);
-        courseAction2.getStudents().add(student);
-        courseAction2.setTimeSlot(timeSlot2);
-        school.getTeachers().add(teacher);
-        courseAction.setTeacher(teacher);
-        courseAction2.setTeacher(teacher);
-
-        school.addCourse(course);
-
-        //assertFalse(result);
+        assertEquals(false, result);
     }
     
-    @Test(expected = NullPointerException.class)
-    public void testAddCourseWhenCourseIsNull() {
+    @Test
+    public void testAddStudent() {
+        School school = new School();
+        Student student = new Student();
         
-        school.addCourse(null);
+        school.addStudent(student);
+        
+        assertEquals(student, school.getStudents().get(0));
     }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testAddCourseWhenTheCourseIsAlreadyPresentAtSchool() {
-        school.getCourses().add(course);
-
-        school.addCourse(course);
+    
+    @Test
+    public void testAddCourseAction() {
+        Course course = new Course();
+        CourseAction courseAction = new CourseAction();
+        School school = new School();
+        
+        school.getCoursesList().add(course);
+        school.addCourseAction(course, courseAction);
+        
+        assertEquals(courseAction, school.getCoursesList().get(0).getActions().get(0));
     }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testAddCourseWhenStudentIsNotPresentAtSchool() {
-
-        course.getActions().add(courseAction);
-        courseAction.getStudents().add(student);
-//        school.getStudents().add(student);
-
-        school.addCourse(course);
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testAddCourseWhenTeacherHasAnotherActionAtThisTime() {
-
+    
+    @Test
+    public void testAddTeacher() {
+        School school = new School();
         Teacher teacher = new Teacher();
-        CourseAction courseAction2 = new CourseAction();
-        Course course2 = new Course();
-        school.getCourses().add(course2);
-        course.getActions().add(courseAction);
-        course2.getActions().add(courseAction2);
-        courseAction2.setTimeSlot(timeSlot);
-        school.getTeachers().add(teacher);
-        courseAction.setTeacher(teacher);
-        courseAction2.setTeacher(teacher);
-
-        school.addCourse(course);
+        
+        school.addTeacher(teacher);
+        assertEquals(teacher, school.getTeachers().get(0));
     }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testAddCourseWhenStudentHasAnotherActionAtThisTime() {
-        Teacher teacher = new Teacher();
-        Teacher teacher2 = new Teacher();
-        CourseAction courseAction2 = new CourseAction();        
-        Course course2 = new Course();
-        school.getCourses().add(course2);
-        course.getActions().add(courseAction);
-        course2.getActions().add(courseAction2);
-        school.getStudents().add(student);
-        courseAction.getStudents().add(student);
-        courseAction2.getStudents().add(student);
-        courseAction2.setTimeSlot(timeSlot);
-        school.getTeachers().add(teacher);
-        school.getTeachers().add(teacher2);
-        courseAction.setTeacher(teacher);
-        courseAction2.setTeacher(teacher2);
-
+    
+    @Test
+    public void testAddCourse() {
+        School school = new School();
+        Course course = new Course();
+        
         school.addCourse(course);
+        assertEquals(course, school.getCoursesList().get(0));
     }
 
     @Test
