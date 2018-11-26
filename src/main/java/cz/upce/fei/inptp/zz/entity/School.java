@@ -20,8 +20,6 @@ public class School implements ISchool {
     }
 
     // TODO: check if specific timeSlot action is available in course
-
-    // TODO: check if course action has a free capacity for new student
     @Override
 
     public boolean addStudentToCourseAction(Course course, Student student, TimeSlot timeSlot) {
@@ -36,6 +34,14 @@ public class School implements ISchool {
             return false;
         }
 
+        //check if course action has a free capacity for new student
+        if (!course.getActions().stream()
+                .filter((courseAction) -> (courseAction.getTimeSlot()
+                .equals(timeSlot)))
+                .noneMatch((courseAction) -> (courseAction.getStudents().size() >= courseAction.getCapacity()))) {
+            return false;
+        }
+
         for (CourseAction action : course.getActions()) {
             if (action.getTimeSlot().equals(timeSlot)) {
                 action.getStudents().add(student);
@@ -47,22 +53,23 @@ public class School implements ISchool {
         return false;
 
     }
-    
+
     @Override
-    public void addStudent(Student newStudent){
-        if(!checkIsStudentAtSchool(newStudent))
+    public void addStudent(Student newStudent) {
+        if (!checkIsStudentAtSchool(newStudent)) {
             students.add(newStudent);
+        }
     }
-    
-    public void removeStudent(Student studentToBeRemoved){
-        if(checkIsStudentAtSchool(studentToBeRemoved)){
+
+    public void removeStudent(Student studentToBeRemoved) {
+        if (checkIsStudentAtSchool(studentToBeRemoved)) {
             int studentPositionInList = students.indexOf(studentToBeRemoved);
             Student removedStudent = students.remove(studentPositionInList);
-            
+
             removedStudent.getActions().forEach((ca) -> {
                 ca.getStudents().remove(removedStudent);
             });
-            
+
             removedStudent.getActions().clear();
         }
     }
@@ -109,7 +116,7 @@ public class School implements ISchool {
             throw new IllegalArgumentException("Student has another action at this time");
         }
         courses.add(newCourse);
-}
+    }
 
     @Override
     public boolean addCourseAction(Course course, CourseAction courseAction) {
