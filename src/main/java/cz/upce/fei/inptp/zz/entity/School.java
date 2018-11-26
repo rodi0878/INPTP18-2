@@ -3,6 +3,7 @@ package cz.upce.fei.inptp.zz.entity;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 /**
  * @author Roman
@@ -45,6 +46,30 @@ public class School implements ISchool {
         return false;
     }
 
+    @Override
+    public void addStudent(Student newStudent) {
+        if (!checkIsStudentAtSchool(newStudent)) {
+            students.add(newStudent);
+        }
+    }
+
+    public void removeStudent(Student studentToBeRemoved) {
+        if (checkIsStudentAtSchool(studentToBeRemoved)) {
+            int studentPositionInList = students.indexOf(studentToBeRemoved);
+            Student removedStudent = students.remove(studentPositionInList);
+
+            removedStudent.getActions().forEach((ca) -> {
+                ca.getStudents().remove(removedStudent);
+            });
+
+            removedStudent.getActions().clear();
+        }
+    }
+
+    public List<Course> getCoursesList() {
+        return courses;
+    }
+
     public void setCourses(List<Course> courses) {
         this.courses = courses;
     }
@@ -66,33 +91,37 @@ public class School implements ISchool {
     }
 
     @Override
-    public void addCourse(Course course) {
-        if (!courses.contains(course)) {
-            courses.add(course);
-            return;
+    public void addCourse(Course newCourse) {
+        if (newCourse == null) {
+            throw new NullPointerException();
         }
-        throw new DuplicateCoursesException("Course is already added to school");
+        if (checkIsCourseAtSchool(newCourse)) {
+            throw new IllegalArgumentException("The course is already present at school");
+        }
+        if (!checkAllStudentsOfCourseArePresentAtSchool(newCourse)) {
+            throw new IllegalArgumentException("Student is not present at school");
+        }
+        if (!checkNoCollisionsWithTeachersAndTimeSlot(newCourse)) {
+            throw new IllegalArgumentException("Teacher has another action at this time");
+        }
+        if (!checkNoCollisionsWithStudentsAndTimeSlot(newCourse)) {
+            throw new IllegalArgumentException("Student has another action at this time");
+        }
+        courses.add(newCourse);
     }
 
     @Override
     public boolean addCourseAction(Course course, CourseAction courseAction) {
-        if (!courses.contains(course)) {
+        try {
+            return courses.stream().filter((c) -> c.equals(course)).findFirst().get().getActions().add(courseAction);
+        } catch (NoSuchElementException e) {
             return false;
         }
-
-        int index = courses.indexOf(course);
-        Course selectedSchoolCourse = courses.get(index);
-        return selectedSchoolCourse.addAction(courseAction);
-    }
-
-    @Override
-    public void addStudent(Student student) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void addTeacher(Teacher teacher) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        teachers.add(teacher);
     }
 
     @Override
@@ -100,10 +129,65 @@ public class School implements ISchool {
         return courses.iterator();
     }
 
-    public class DuplicateCoursesException extends RuntimeException {
-
-        public DuplicateCoursesException(String message) {
-            super(message);
+    private boolean checkIsStudentAtSchool(Student student) {
+        for (Student studentOfSchool : students) {
+            if (studentOfSchool.equals(student)) {
+                return true;
+            }
         }
+        return false;
+    }
+
+    private boolean checkIsCourseAtSchool(Course course) {
+        for (Course courseOfSchool : courses) {
+            if (courseOfSchool.equals(course)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean checkAllStudentsOfCourseArePresentAtSchool(Course newCourse) {
+        for (CourseAction courseAction : newCourse.getActions()) {
+            for (Student student : courseAction.getStudents()) {
+                if (!checkIsStudentAtSchool(student)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    private boolean checkNoCollisionsWithTeachersAndTimeSlot(Course newCourse) {
+        for (Course course : courses) {
+            for (CourseAction courseAction : course.getActions()) {
+                for (CourseAction newCourseAction : newCourse.getActions()) {
+                    if (courseAction.getTeacher().equals(newCourseAction.getTeacher())
+                            && courseAction.getTimeSlot().equals(newCourseAction.getTimeSlot())) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+    private boolean checkNoCollisionsWithStudentsAndTimeSlot(Course newCourse) {
+        for (Course course : courses) {
+            for (CourseAction courseAction : course.getActions()) {
+                for (CourseAction newCourseAction : newCourse.getActions()) {
+                    for (Student student : courseAction.getStudents()) {
+                        for (Student studentOfNewCourseAction : newCourseAction.getStudents()) {
+                            if (student.equals(studentOfNewCourseAction)
+                                    && courseAction.getTimeSlot().equals(newCourseAction.getTimeSlot())) {
+
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return true;
     }
 }
