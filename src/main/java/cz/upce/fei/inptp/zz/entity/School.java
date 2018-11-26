@@ -1,12 +1,13 @@
 package cz.upce.fei.inptp.zz.entity;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
  * @author Roman
  */
-public class School /*implements ISchool*/ {
+public class School implements ISchool {
 
     private List<Course> courses;
     private List<Teacher> teachers;
@@ -19,6 +20,10 @@ public class School /*implements ISchool*/ {
     }
 
     // TODO: check if specific timeSlot action is available in course
+
+    // TODO: check if course action has a free capacity for new student
+    @Override
+
     public boolean addStudentToCourseAction(Course course, Student student, TimeSlot timeSlot) {
 
         //check if student is present at school
@@ -40,9 +45,29 @@ public class School /*implements ISchool*/ {
             }
         }
         return false;
+
+    }
+    
+    @Override
+    public void addStudent(Student newStudent){
+        if(!checkIsStudentAtSchool(newStudent))
+            students.add(newStudent);
+    }
+    
+    public void removeStudent(Student studentToBeRemoved){
+        if(checkIsStudentAtSchool(studentToBeRemoved)){
+            int studentPositionInList = students.indexOf(studentToBeRemoved);
+            Student removedStudent = students.remove(studentPositionInList);
+            
+            removedStudent.getActions().forEach((ca) -> {
+                ca.getStudents().remove(removedStudent);
+            });
+            
+            removedStudent.getActions().clear();
+        }
     }
 
-    public List<Course> getCourses() {
+    public List<Course> getCoursesList() {
         return courses;
     }
 
@@ -64,6 +89,42 @@ public class School /*implements ISchool*/ {
 
     public void setStudents(List<Student> students) {
         this.students = students;
+    }
+
+    @Override
+    public void addCourse(Course newCourse) {
+        if (newCourse == null) {
+            throw new NullPointerException();
+        }
+        if (checkIsCourseAtSchool(newCourse)) {
+            throw new IllegalArgumentException("The course is already present at school");
+        }
+        if (!checkAllStudentsOfCourseArePresentAtSchool(newCourse)) {
+            throw new IllegalArgumentException("Student is not present at school");
+        }
+        if (!checkNoCollisionsWithTeachersAndTimeSlot(newCourse)) {
+            throw new IllegalArgumentException("Teacher has another action at this time");
+        }
+        if (!checkNoCollisionsWithStudentsAndTimeSlot(newCourse)) {
+            throw new IllegalArgumentException("Student has another action at this time");
+        }
+        courses.add(newCourse);
+}
+
+    @Override
+    public boolean addCourseAction(Course course, CourseAction courseAction) {
+        return courses.stream().filter((c) -> c.equals(course))
+                .findFirst().get().getActions().add(courseAction);
+    }
+
+    @Override
+    public void addTeacher(Teacher teacher) {
+        teachers.add(teacher);
+    }
+
+    @Override
+    public Iterator<Course> getCourses() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     private boolean checkIsStudentAtSchool(Student student) {
@@ -127,24 +188,4 @@ public class School /*implements ISchool*/ {
         }
         return true;
     }
-
-    public void addCourse(Course newCourse) {
-        if (newCourse == null) {
-            throw new NullPointerException();
-        }
-        if (checkIsCourseAtSchool(newCourse)) {
-            throw new IllegalArgumentException("The course is already present at school");
-        }
-        if (!checkAllStudentsOfCourseArePresentAtSchool(newCourse)) {
-            throw new IllegalArgumentException("Student is not present at school");
-        }
-        if (!checkNoCollisionsWithTeachersAndTimeSlot(newCourse)) {
-            throw new IllegalArgumentException("Teacher has another action at this time");
-        }
-        if (!checkNoCollisionsWithStudentsAndTimeSlot(newCourse)) {
-            throw new IllegalArgumentException("Student has another action at this time");
-        }
-        courses.add(newCourse);
-    }
-
 }
