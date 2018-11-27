@@ -19,7 +19,6 @@ public interface ISchool {
     // TODO: check if course action has a free capacity for new student
     boolean addStudentToCourseAction(Course course, Student student, TimeSlot timeSlot);
 
-    // TODO: apply similair requirements as in addStudentToCourseAction
     void addCourse(Course course);
     
     boolean addCourseAction(Course course, CourseAction courseAction);

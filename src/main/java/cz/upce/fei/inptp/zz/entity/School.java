@@ -3,6 +3,7 @@ package cz.upce.fei.inptp.zz.entity;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 /**
  * @author Roman
@@ -44,22 +45,23 @@ public class School implements ISchool {
         }
         return false;
     }
-    
+
     @Override
-    public void addStudent(Student newStudent){
-        if(!checkIsStudentAtSchool(newStudent))
+    public void addStudent(Student newStudent) {
+        if (!checkIsStudentAtSchool(newStudent)) {
             students.add(newStudent);
+        }
     }
-    
-    public void removeStudent(Student studentToBeRemoved){
-        if(checkIsStudentAtSchool(studentToBeRemoved)){
+
+    public void removeStudent(Student studentToBeRemoved) {
+        if (checkIsStudentAtSchool(studentToBeRemoved)) {
             int studentPositionInList = students.indexOf(studentToBeRemoved);
             Student removedStudent = students.remove(studentPositionInList);
-            
+
             removedStudent.getActions().forEach((ca) -> {
                 ca.getStudents().remove(removedStudent);
             });
-            
+
             removedStudent.getActions().clear();
         }
     }
@@ -106,12 +108,15 @@ public class School implements ISchool {
             throw new IllegalArgumentException("Student has another action at this time");
         }
         courses.add(newCourse);
-}
+    }
 
     @Override
     public boolean addCourseAction(Course course, CourseAction courseAction) {
-        return courses.stream().filter((c) -> c.equals(course))
-                .findFirst().get().getActions().add(courseAction);
+        try {
+            return courses.stream().filter((c) -> c.equals(course)).findFirst().get().getActions().add(courseAction);
+        } catch (NoSuchElementException e) {
+            return false;
+        }
     }
 
     @Override
@@ -121,9 +126,9 @@ public class School implements ISchool {
 
     @Override
     public Iterator<Course> getCourses() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return courses.iterator();
     }
-  
+
     private boolean checkIsStudentAtSchool(Student student) {
         for (Student studentOfSchool : students) {
             if (studentOfSchool.equals(student)) {
