@@ -18,12 +18,25 @@ public class CourseAction {
     private Teacher teacher;
     private List<Student> students;
     private ActionType type;
+    private int capacity;
 
     public CourseAction() {
         students = new ArrayList<>();
-                
+        capacity = Integer.MAX_VALUE;
+    }
+    
+    public boolean hasCapacity() {
+        return this.students.size() < this.capacity;
     }
 
+    public int getCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
+    }
+    
     public Course getCourse() {
         return course;
     }
