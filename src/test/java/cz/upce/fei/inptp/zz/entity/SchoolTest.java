@@ -36,7 +36,7 @@ public class SchoolTest {
     @Test
     public void testAddStudentToCourseAction() {
 
-        school.getCourses().add(course);
+        school.getCoursesList().add(course);
         course.getActions().add(courseAction);
         school.getStudents().add(student);
 
@@ -61,7 +61,7 @@ public class SchoolTest {
     @Test
     public void testAddStudentToCourseActionWhenCourseIsMissingCourseAction() {
 
-        school.getCourses().add(course);
+        school.getCoursesList().add(course);
         //course.actions.add(courseAction);
         school.getStudents().add(student);
 
@@ -73,12 +73,137 @@ public class SchoolTest {
     @Test
     public void testAddStudentToCourseActionWhenStudentIsNotInSchool() {
 
-        school.getCourses().add(course);
+        school.getCoursesList().add(course);
         course.getActions().add(courseAction);
-        //school.students.add(student);
 
-        boolean result = school.addStudentToCourseAction(course, student, timeSlot);
+        boolean result = school.addStudentToCourseAction(course, new Student(), timeSlot);
 
-        //assertFalse(result);
+        assertEquals(false, result);
+    }
+    
+    @Test
+    public void testAddStudent() {
+        School school = new School();
+        Student student = new Student();
+        
+        school.addStudent(student);
+        
+        assertEquals(student, school.getStudents().get(0));
+    }
+    
+    @Test
+    public void testAddCourseAction() {
+        Course course = new Course();
+        CourseAction courseAction = new CourseAction();
+        School school = new School();
+        
+        school.getCoursesList().add(course);
+        school.addCourseAction(course, courseAction);
+        
+        assertEquals(courseAction, school.getCoursesList().get(0).getActions().get(0));
+    }
+    
+    @Test
+    public void testAddTeacher() {
+        School school = new School();
+        Teacher teacher = new Teacher();
+        
+        school.addTeacher(teacher);
+        assertEquals(teacher, school.getTeachers().get(0));
+    }
+    
+    @Test
+    public void testAddCourse() {
+        School school = new School();
+        Course course = new Course();
+        
+        school.addCourse(course);
+        assertEquals(course, school.getCoursesList().get(0));
+    }
+
+    @Test
+    public void testComparePersonsByIDIsTrue(){
+        student.setID("S0001");
+        Student student2 = new Student();
+        student2.setID("S0001");
+        
+        assertTrue(student.equals(student2));
+    }
+    
+    @Test
+    public void testComparePersonsByIDIsFalse(){
+        student.setID("S0001");
+        Student student2 = new Student();
+        student2.setID("S0002");
+        
+        assertFalse(student.equals(student2));
+    }
+    
+    @Test
+    public void testNewStudentWasAdded(){
+        school.addStudent(student);
+        
+        assertEquals(1, school.getStudents().size());
+    }
+    
+    @Test
+    public void testNewStudentWasNotAddedBecauseHeIsAlreadyPresent(){
+        student.setID("S0001");
+        school.addStudent(student);
+       
+        Student newStudent = new Student();
+        newStudent.setID("S0001");
+        school.addStudent(newStudent);
+        
+        assertEquals(1, school.getStudents().size());
+    }
+    
+    @Test
+    public void testStudentWasRemoved(){
+        student.setID("S0001");
+        school.addStudent(student);
+        
+        Student studentToBeRemoved = new Student();
+        studentToBeRemoved.setID("S0001");
+        school.removeStudent(studentToBeRemoved);
+        
+        assertEquals(0, school.getStudents().size());
+    }
+    
+    @Test
+    public void testStudentWasNotRemovedBecauseOfWrongID(){
+        student.setID("S0001");
+        school.addStudent(student);
+        
+        Student studentToBeRemoved = new Student();
+        studentToBeRemoved.setID("S0002");
+        school.removeStudent(studentToBeRemoved);
+        
+        assertEquals(1, school.getStudents().size());
+    }
+    
+    @Test
+    public void testStudentDoesNotHaveCourseActionsAfterHeWasRemoved(){
+        student.getActions().add(courseAction);
+        student.setID("S0001");
+        school.addStudent(student);
+        
+        Student studentToBeRemoved = new Student();
+        studentToBeRemoved.setID("S0001");
+        school.removeStudent(studentToBeRemoved);
+        
+        assertEquals(0, student.getActions().size());
+    }
+    
+    @Test
+    public void testRemovedStudentWasRemovedFromHisCourseAction(){
+        student.setID("S0001");
+        student.getActions().add(courseAction);
+        courseAction.getStudents().add(student);
+        school.addStudent(student);
+        
+        school.removeStudent(student);
+       
+        assertEquals(0, courseAction.getStudents().size());
     }
 }
