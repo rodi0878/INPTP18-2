@@ -5,7 +5,6 @@
  */
 package cz.upce.fei.inptp.zz.entity;
 
-import java.util.Iterator;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -37,7 +36,7 @@ public class SchoolTest {
     @Test
     public void testAddStudentToCourseAction() {
 
-        school.addCourse(course);
+        school.getCoursesList().add(course);
         course.getActions().add(courseAction);
         school.getStudents().add(student);
 
@@ -62,7 +61,7 @@ public class SchoolTest {
     @Test
     public void testAddStudentToCourseActionWhenCourseIsMissingCourseAction() {
 
-        school.addCourse(course);
+        school.getCoursesList().add(course);
         //course.actions.add(courseAction);
         school.getStudents().add(student);
 
@@ -74,7 +73,7 @@ public class SchoolTest {
     @Test
     public void testAddStudentToCourseActionWhenStudentIsNotInSchool() {
 
-        school.addCourse(course);
+        school.getCoursesList().add(course);
         course.getActions().add(courseAction);
 
         boolean result = school.addStudentToCourseAction(course, new Student(), timeSlot);
@@ -206,40 +205,5 @@ public class SchoolTest {
         school.removeStudent(student);
        
         assertEquals(0, courseAction.getStudents().size());
-    }
-
-    @Test
-    public void testEmptySchoolCourses() {
-        Iterator<Course> iterator = school.getCourses();
-
-        assertFalse(iterator.hasNext());
-    }
-
-    @Test
-    public void testAddCourseToSchool() {
-        school.addCourse(course);
-        Iterator<Course> iterator = school.getCourses();
-
-        assertEquals(course, iterator.next());
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testAddDuplicityCourseToSchool() {
-        school.addCourse(course);
-        school.addCourse(course);
-    }
-
-    @Test
-    public void testAddActionToSchoolCourse() {
-        school.addCourse(new Course("C01"));
-        boolean result = school.addCourseAction(new Course("C01"), courseAction);
-        assertTrue(result);
-    }
-
-    @Test
-    public void testAddActionToNonExistCourseInSchool() {
-        school.addCourse(new Course("C01"));
-        boolean result = school.addCourseAction(new Course("02"), courseAction);
-        assertFalse(result);
     }
 }
