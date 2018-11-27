@@ -240,4 +240,76 @@ public class SchoolTest {
         
         assertFalse(courseAction.hasCapacity());
     }
+    
+    @Test
+    public void testAddStudentToEmptyCourseAction() {
+        Student student = new Student();
+        CourseAction courseAction = new CourseAction();
+        TimeSlot timeSlot = new TimeSlot(Day.Saturday, 10, 2);
+        Course course = new Course();
+        School school = new School();
+        
+        school.addCourse(course);
+        course.getActions().add(courseAction);
+        courseAction.setTimeSlot(timeSlot);
+        school.getStudents().add(student);
+        courseAction.setCapacity(1);
+
+        assertTrue(school.addStudentToCourseAction(course, student, timeSlot));
+    }
+    
+    @Test
+    public void testAddStudentToZeroCapacityCourseAction() {
+        Student student = new Student();
+        CourseAction courseAction = new CourseAction();
+        TimeSlot timeSlot = new TimeSlot(Day.Saturday, 10, 2);
+        Course course = new Course();
+        School school = new School();
+        
+        school.addCourse(course);
+        course.getActions().add(courseAction);
+        courseAction.setTimeSlot(timeSlot);
+        school.getStudents().add(student);
+        courseAction.setCapacity(0);
+
+        assertFalse(school.addStudentToCourseAction(course, student, timeSlot));
+    }
+    
+    @Test
+    public void testAddStudentToNotEmptyCourseAction() {
+        Student student = new Student();
+        CourseAction courseAction = new CourseAction();
+        TimeSlot timeSlot = new TimeSlot(Day.Saturday, 10, 2);
+        Course course = new Course();
+        School school = new School();
+        
+        school.addCourse(course);
+        course.getActions().add(courseAction);
+        courseAction.setTimeSlot(timeSlot);
+        school.getStudents().add(student);
+        courseAction.setCapacity(2);
+
+        courseAction.getStudents().add(new Student());
+        
+        assertTrue(school.addStudentToCourseAction(course, student, timeSlot));
+    }
+    
+    @Test
+    public void testAddStudentToFullCourseAction() {
+        Student student = new Student();
+        CourseAction courseAction = new CourseAction();
+        TimeSlot timeSlot = new TimeSlot(Day.Saturday, 10, 2);
+        Course course = new Course();
+        School school = new School();
+        
+        school.addCourse(course);
+        course.getActions().add(courseAction);
+        courseAction.setTimeSlot(timeSlot);
+        school.getStudents().add(student);
+        courseAction.setCapacity(1);
+
+        courseAction.getStudents().add(new Student());
+        
+        assertFalse(school.addStudentToCourseAction(course, student, timeSlot));
+    }
 }
