@@ -11,17 +11,8 @@ package cz.upce.fei.inptp.zz.entity;
  */
 public class Room {
     
-    private int roomNumber;
     private int roomCapacity;
-
-    public int getRoomNumber() {
-        return roomNumber;
-    }
-
-    public void setRoomNumber(int roomNumber) {
-        this.roomNumber = roomNumber;
-    }
-
+  
     public int getRoomCapacity() {
         return roomCapacity;
     }

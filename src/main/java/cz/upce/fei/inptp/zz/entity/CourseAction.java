@@ -18,7 +18,7 @@ public class CourseAction {
     private Teacher teacher;
     private List<Student> students;
     private ActionType type;
-    private Room room;
+    
 
     public CourseAction() {
         students = new ArrayList<>();
@@ -64,14 +64,6 @@ public class CourseAction {
     public void setType(ActionType type) {
         this.type = type;
     }
-
-    public Room getRoom() {
-        return room;
-    }
-
-    public void setRoom(Room room) {
-        this.room = room;
-    }
-    
+   
     
 }
