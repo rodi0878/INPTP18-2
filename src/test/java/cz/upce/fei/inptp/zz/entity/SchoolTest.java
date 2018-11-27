@@ -43,7 +43,39 @@ public class SchoolTest {
         boolean result = school.addStudentToCourseAction(course, student, timeSlot);
 
         assertTrue(result);
-        // TODO: do also invalid cases...
+    }
+
+    @Test
+    public void testAddNonSchoolStudentToCourseAction() {
+
+        school.addCourse(course);
+        course.getActions().add(courseAction);
+
+        boolean result = school.addStudentToCourseAction(course, student, timeSlot);
+
+        assertFalse(result);
+    }
+
+    @Test
+    public void testAddStudentToNonExistCourse() {
+
+        course.getActions().add(courseAction);
+        school.addStudent(student);
+
+        boolean result = school.addStudentToCourseAction(course, student, timeSlot);
+
+        assertFalse(result);
+    }
+
+    @Test
+    public void testAddStudentToNonExistCourseAction() {
+
+        school.addCourse(course);
+        school.addStudent(student);
+
+        boolean result = school.addStudentToCourseAction(course, student, timeSlot);
+
+        assertFalse(result);
     }
 
     @Test
