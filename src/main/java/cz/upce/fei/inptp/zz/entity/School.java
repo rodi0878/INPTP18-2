@@ -35,11 +35,14 @@ public class School implements ISchool {
         //check if specific timeSlot action is available in course
         //check if course action has a free capacity for new student
         for (CourseAction action : course.getActions()) {
-            if (action.getTimeSlot().equals(timeSlot) && action.hasCapacity()) {
-                action.getStudents().add(student);
-                student.getActions().add(action);
+            if (action.getTimeSlot().equals(timeSlot)) {
+                if (action.hasCapacity()) {
+                    action.getStudents().add(student);
+                    student.getActions().add(action);
 
-                return true;
+                    return true;
+                }
+                break;
             }
         }
         return false;
