@@ -10,7 +10,7 @@ public class CourseActionTest {
         CourseAction courseAction = new CourseAction();
         courseAction.setCapacity(1);
         
-        assertTrue(courseAction.hasCapacity());
+        assertTrue(courseAction.isNotFull());
     }
     
     @Test
@@ -18,7 +18,7 @@ public class CourseActionTest {
         CourseAction courseAction = new CourseAction();
         courseAction.setCapacity(0);
         
-        assertFalse(courseAction.hasCapacity());
+        assertFalse(courseAction.isNotFull());
     }
     
     @Test
@@ -27,7 +27,7 @@ public class CourseActionTest {
         courseAction.setCapacity(2);
         courseAction.getStudents().add(new Student());
         
-        assertTrue(courseAction.hasCapacity());
+        assertTrue(courseAction.isNotFull());
     }
     
     @Test
@@ -36,6 +36,6 @@ public class CourseActionTest {
         courseAction.setCapacity(1);
         courseAction.getStudents().add(new Student());
         
-        assertFalse(courseAction.hasCapacity());
+        assertFalse(courseAction.isNotFull());
     }
 }

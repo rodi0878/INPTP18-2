@@ -25,7 +25,7 @@ public class CourseAction {
         capacity = Integer.MAX_VALUE;
     }
     
-    public boolean hasCapacity() {
+    public boolean isNotFull() {
         return this.students.size() < this.capacity;
     }
 
