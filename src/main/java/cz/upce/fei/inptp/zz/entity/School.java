@@ -3,6 +3,9 @@ package cz.upce.fei.inptp.zz.entity;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author Roman
@@ -12,7 +15,6 @@ public class School implements ISchool {
     private List<Course> courses;
     private List<Teacher> teachers;
     private List<Student> students;
-
 
     public School() {
         courses = new ArrayList<>();
@@ -46,25 +48,26 @@ public class School implements ISchool {
                 break;
             }
         }
-                                   
+
         return false;
     }
-    
+
     @Override
-    public void addStudent(Student newStudent){
-        if(!checkIsStudentAtSchool(newStudent))
+    public void addStudent(Student newStudent) {
+        if (!checkIsStudentAtSchool(newStudent)) {
             students.add(newStudent);
+        }
     }
-    
-    public void removeStudent(Student studentToBeRemoved){
-        if(checkIsStudentAtSchool(studentToBeRemoved)){
+
+    public void removeStudent(Student studentToBeRemoved) {
+        if (checkIsStudentAtSchool(studentToBeRemoved)) {
             int studentPositionInList = students.indexOf(studentToBeRemoved);
             Student removedStudent = students.remove(studentPositionInList);
-            
+
             removedStudent.getActions().forEach((ca) -> {
                 ca.getStudents().remove(removedStudent);
             });
-            
+
             removedStudent.getActions().clear();
         }
     }
@@ -111,7 +114,7 @@ public class School implements ISchool {
             throw new IllegalArgumentException("Student has another action at this time");
         }
         courses.add(newCourse);
-}
+    }
 
     @Override
     public boolean addCourseAction(Course course, CourseAction courseAction) {
@@ -125,10 +128,31 @@ public class School implements ISchool {
     }
 
     @Override
-    public Iterator<Course> getCourses() { 
-       throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Iterator<Course> getCourses() {
+        return new Iterator<Course>() {
+            int current = 0;
+
+            @Override
+            public boolean hasNext() {
+                return current < courses.size();
+            }
+
+            @Override
+            public Course next() {
+                if (!hasNext()) {
+                    throw new NoSuchElementException();
+                }
+
+                try {
+                    return (Course) courses.get(current++).clone();
+                } catch (CloneNotSupportedException ex) {                        
+                    return null;
+                }
+                       
+            }
+        };
     }
-    
+
     private boolean checkIsStudentAtSchool(Student student) {
         for (Student studentOfSchool : students) {
             if (studentOfSchool.equals(student)) {

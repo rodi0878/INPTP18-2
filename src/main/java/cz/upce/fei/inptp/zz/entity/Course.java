@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author Roman
  */
-public class Course {
+public class Course implements Cloneable{
     private String title;
     private String description;
     private List<CourseAction> actions;
@@ -43,6 +43,11 @@ public class Course {
 
     public void setActions(List<CourseAction> actions) {
         this.actions = actions;
+    }
+    
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone(); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

@@ -5,6 +5,9 @@
  */
 package cz.upce.fei.inptp.zz.entity;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -278,4 +281,53 @@ public class SchoolTest {
         
         assertFalse(school.addStudentToCourseAction(course, student, timeSlot));
     }
+    
+    @Test
+    public void testGetCoursesIteratorIsUnmodifiable(){
+        school = new School();
+        school.addCourse(new Course());
+        school.addCourse(new Course());
+        school.addCourse(new Course());
+        
+        List<Course> immutableList = new ArrayList<>();
+        List<Course> originalList = school.getCoursesList();
+        Iterator it = school.getCourses();
+        while (it.hasNext()) {
+            Course course = (Course) it.next();
+            immutableList.add(course);
+        }
+        
+        boolean addressOfObjIsEqual = false;
+        for (int i = 0; i < immutableList.size(); i++) {
+            if(immutableList.get(i).equals(originalList.get(i)))
+                addressOfObjIsEqual = true;
+        }        
+        assertFalse(addressOfObjIsEqual);                        
+    }
+    
+    @Test
+    public void testGetCoursesIteratorHasNextMethod(){
+        school = new School();
+        school.addCourse(new Course());
+        Iterator it = school.getCourses();
+        assertTrue(it.hasNext());
+    }
+    
+    @Test
+    public void testGetCoursesIteratorReturnsAllCourses(){
+        school = new School();
+        school.addCourse(new Course());   
+        school.addCourse(new Course());   
+        school.addCourse(new Course());   
+        school.addCourse(new Course());   
+        int numberOfReturn = 0;
+        
+        Iterator it = school.getCourses();        
+        while (it.hasNext()) {
+            it.next();
+            numberOfReturn++;   
+        }
+        assertEquals(numberOfReturn, school.getCoursesList().size());
+    }
+    
 }
