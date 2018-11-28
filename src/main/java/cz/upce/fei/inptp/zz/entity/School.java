@@ -19,8 +19,6 @@ public class School implements ISchool {
         students = new ArrayList<>();
     }
 
-    // TODO: check if specific timeSlot action is available in course
-    // TODO: check if course action has a free capacity for new student
     @Override
     public boolean addStudentToCourseAction(Course course, Student student, TimeSlot timeSlot) {
 
@@ -34,12 +32,17 @@ public class School implements ISchool {
             return false;
         }
 
+        //check if specific timeSlot action is available in course
+        //check if course action has a free capacity for new student
         for (CourseAction action : course.getActions()) {
             if (action.getTimeSlot().equals(timeSlot)) {
-                action.getStudents().add(student);
-                student.getActions().add(action);
+                if (action.isNotFull()) {
+                    action.getStudents().add(student);
+                    student.getActions().add(action);
 
-                return true;
+                    return true;
+                }
+                break;
             }
         }
         return false;
