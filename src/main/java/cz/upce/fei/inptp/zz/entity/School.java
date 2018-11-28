@@ -122,8 +122,8 @@ public class School implements ISchool {
     }
 
     @Override
-    public Iterator<Course> getCourses() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Iterator<Course> getCourses() { 
+       throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
     private boolean checkIsStudentAtSchool(Student student) {
