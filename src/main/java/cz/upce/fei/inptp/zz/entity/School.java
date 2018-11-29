@@ -113,7 +113,10 @@ public class School implements ISchool {
     }
 
     @Override
-    public void addTeacher(Teacher teacher) {
+        public void addTeacher(Teacher teacher) {
+        if (teachers.contains(teacher)) {
+            throw new IllegalArgumentException("The teacher is already existing");
+        }
         teachers.add(teacher);
     }
 
