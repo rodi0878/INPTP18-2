@@ -22,13 +22,11 @@ public class School implements ISchool {
     @Override
     public boolean addStudentToCourseAction(Course course, Student student, TimeSlot timeSlot) {
 
-        //check if student is present at school
-        if (students.stream().noneMatch(studentAtSchool -> studentAtSchool.equals(student))) {
+        if (!students.contains(student)) {
             return false;
         }
 
-        //check if course is present at school
-        if (courses.stream().noneMatch(courseAtSchool -> courseAtSchool.equals(course))) {
+        if (!courses.contains(course)) {
             return false;
         }
 
