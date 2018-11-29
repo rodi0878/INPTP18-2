@@ -33,13 +33,12 @@ public class CourseIteratorTest {
         assertFalse(courseIterator.hasNext());
     }
 
-    @Test
+    @Test(expected = UnsupportedOperationException.class)
     public void testIteratorCourseIsNotRemoved() {
         school.addCourse(course);
         Iterator courseIterator = school.getCourses();
         Course courseIt = (Course) courseIterator.next();
         courseIterator.remove();
-        Assert.assertEquals(1, school.getCoursesList().size());
     }
 
 }
