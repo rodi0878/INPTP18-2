@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-/**
- * @author Roman
- */
 public class School implements ISchool {
 
     private List<Course> courses;
