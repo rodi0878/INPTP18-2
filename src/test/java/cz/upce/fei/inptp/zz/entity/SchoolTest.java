@@ -17,7 +17,7 @@ public class SchoolTest {
         school = new School();
         student = new Student();
         course = new Course();
-        timeSlot = new TimeSlot(Day.Saturday, 10, 2);
+        timeSlot = new TimeSlot(Day.Saturday, 10, 11);
 
         courseAction = new CourseAction();
         courseAction.setTimeSlot(timeSlot);
@@ -201,7 +201,7 @@ public class SchoolTest {
     public void testAddStudentToEmptyCourseAction() {
         Student student = new Student();
         CourseAction courseAction = new CourseAction();
-        TimeSlot timeSlot = new TimeSlot(Day.Saturday, 10, 2);
+        TimeSlot timeSlot = new TimeSlot(Day.Saturday, 10, 11);
         Course course = new Course();
         School school = new School();
         
@@ -218,7 +218,7 @@ public class SchoolTest {
     public void testAddStudentToZeroCapacityCourseAction() {
         Student student = new Student();
         CourseAction courseAction = new CourseAction();
-        TimeSlot timeSlot = new TimeSlot(Day.Saturday, 10, 2);
+        TimeSlot timeSlot = new TimeSlot(Day.Saturday, 10, 11);
         Course course = new Course();
         School school = new School();
         
@@ -235,7 +235,7 @@ public class SchoolTest {
     public void testAddStudentToNotEmptyCourseAction() {
         Student student = new Student();
         CourseAction courseAction = new CourseAction();
-        TimeSlot timeSlot = new TimeSlot(Day.Saturday, 10, 2);
+        TimeSlot timeSlot = new TimeSlot(Day.Saturday, 10, 11);
         Course course = new Course();
         School school = new School();
         
@@ -254,7 +254,7 @@ public class SchoolTest {
     public void testAddStudentToFullCourseAction() {
         Student student = new Student();
         CourseAction courseAction = new CourseAction();
-        TimeSlot timeSlot = new TimeSlot(Day.Saturday, 10, 2);
+        TimeSlot timeSlot = new TimeSlot(Day.Saturday, 10, 11);
         Course course = new Course();
         School school = new School();
         
