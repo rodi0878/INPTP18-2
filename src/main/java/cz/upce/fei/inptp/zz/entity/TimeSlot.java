@@ -5,50 +5,42 @@ import java.util.Objects;
 public class TimeSlot {
 
     private Day day;
-    private static final int MIN_HOUR = 8;
-    private static final int MAX_HOUR = 20;
-    private int startHour = MIN_HOUR;
-    private int endHour = MAX_HOUR;
+    private int hourOfTimeSlotStart = 0;
+    private int hourOfTimeSlotEnd = 23;
 
-    public TimeSlot(Day day, int startHour, int endHour) throws IllegalArgumentException {
+    public TimeSlot(Day day, int hourOfTimeSlotStart, int hourOfTimeSlotEnd)
+            throws IllegalArgumentException {
+
+        if (!areBothHourArgumentsCorrect(hourOfTimeSlotStart, hourOfTimeSlotEnd)) {
+            throw new IllegalArgumentException("Hour arguments are not correct!");
+        }
+
         this.day = day;
-
-        if (isStartHourCorrect(startHour)) {
-            this.startHour = startHour;
-        } else {
-            throw new IllegalArgumentException("Argument startHour is not correct!");
-        }
-
-        if (isEndHourCorrect(endHour)) {
-            this.endHour = endHour;
-        } else {
-            throw new IllegalArgumentException("Argument endHour is not correct!");
-        }
+        this.hourOfTimeSlotEnd = hourOfTimeSlotEnd;
+        this.hourOfTimeSlotStart = hourOfTimeSlotStart;
     }
 
     public Day getDay() {
         return day;
     }
 
-    public int getStartHour() {
-        return startHour;
+    public int getHourOfTimeSlotStart() {
+        return hourOfTimeSlotStart;
     }
 
-    public int getEndHour() {
-        return endHour;
+    public int getHourOfTimeSlotEnd() {
+        return hourOfTimeSlotEnd;
     }
 
-    private boolean isStartHourCorrect(int startHour) {
-        return startHour < endHour && startHour >= MIN_HOUR && startHour < MAX_HOUR;
-    }
-
-    private boolean isEndHourCorrect(int endHour) {
-        return endHour > startHour && endHour > MIN_HOUR && endHour <= MAX_HOUR;
+    private boolean areBothHourArgumentsCorrect(int startHour, int endHour) {
+        return (startHour >= 0 && startHour < endHour)
+                && (endHour <= 23 && endHour > startHour);
     }
 
     public boolean isOverlappingWithOtherTimeslot(TimeSlot timeSlot) {
         if (day.equals(timeSlot.getDay())) {
-            return startHour < timeSlot.getEndHour() && timeSlot.getStartHour() < getEndHour();
+            return hourOfTimeSlotStart < timeSlot.getHourOfTimeSlotEnd()
+                    && timeSlot.getHourOfTimeSlotStart() < getHourOfTimeSlotEnd();
         }
 
         return false;
@@ -58,8 +50,8 @@ public class TimeSlot {
     public int hashCode() {
         int hash = 5;
         hash = 79 * hash + Objects.hashCode(this.day);
-        hash = 79 * hash + this.startHour;
-        hash = 79 * hash + this.endHour;
+        hash = 79 * hash + this.hourOfTimeSlotStart;
+        hash = 79 * hash + this.hourOfTimeSlotEnd;
         return hash;
     }
 
@@ -75,10 +67,10 @@ public class TimeSlot {
             return false;
         }
         final TimeSlot other = (TimeSlot) obj;
-        if (this.startHour != other.getStartHour()) {
+        if (this.hourOfTimeSlotStart != other.getHourOfTimeSlotStart()) {
             return false;
         }
-        if (this.endHour != other.getEndHour()) {
+        if (this.hourOfTimeSlotEnd != other.getHourOfTimeSlotEnd()) {
             return false;
         }
         if (this.day != other.getDay()) {
