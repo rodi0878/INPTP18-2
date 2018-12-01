@@ -7,7 +7,7 @@ public class TimeSlotTest {
     
     @Test
     public void testSameSlotsShouldBeEqual() {
-        Day day = Day.Friday;
+        Day day = Day.FRIDAY;
         int hour = 8;
         int duration = 7;
         TimeSlot ta = new TimeSlot(day, hour, duration);
@@ -18,8 +18,8 @@ public class TimeSlotTest {
     
     @Test
     public void testDifferentDaysShouldNotBeEqual() {
-        Day friday = Day.Friday;
-        Day sunday = Day.Sunday;
+        Day friday = Day.FRIDAY;
+        Day sunday = Day.SUNDAY;
         int hour = 8;
         int duration = 7;
         
@@ -31,7 +31,7 @@ public class TimeSlotTest {
     
     @Test
     public void testDifferentHoursShouldNotBeEqual() {
-        Day day = Day.Friday;
+        Day day = Day.FRIDAY;
         int hour_a = 8;
         int hour_b = 12;
         int duration = 7;
@@ -44,7 +44,7 @@ public class TimeSlotTest {
     
     @Test
     public void testDifferentDurationsShouldNotBeEqual() {
-        Day day = Day.Friday;
+        Day day = Day.FRIDAY;
         int hour = 8;
         int duration_a = 7;
         int duration_b = 12;
