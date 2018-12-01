@@ -2,6 +2,7 @@ package cz.upce.fei.inptp.zz.entity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
@@ -129,7 +130,7 @@ public class School implements ISchool {
     @Override
     public Iterator<Course> getCourses() {
 
-        List<Course> newList = Arrays.asList();
+        List<Course> newList = Collections.unmodifiableList(courses);
         for (Course course : courses) {
             newList.add(course);
         }
