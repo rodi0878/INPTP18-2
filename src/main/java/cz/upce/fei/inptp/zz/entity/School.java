@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 public class School implements ISchool {
 
@@ -116,6 +117,12 @@ public class School implements ISchool {
 
     @Override
     public void addTeacher(Teacher teacher) {
+        if (Objects.isNull(teacher)) {
+            throw new NullPointerException();
+        }
+        if (teachers.contains(teacher)) {
+            throw new IllegalArgumentException("The teacher is already existing");
+        }
         teachers.add(teacher);
     }
 
