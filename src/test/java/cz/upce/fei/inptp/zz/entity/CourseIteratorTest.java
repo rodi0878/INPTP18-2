@@ -37,7 +37,6 @@ public class CourseIteratorTest {
     public void testIteratorCourseIsNotRemoved() {
         school.addCourse(course);
         Iterator courseIterator = school.getCourses();
-        Course courseIt = (Course) courseIterator.next();
         courseIterator.remove();
     }
 

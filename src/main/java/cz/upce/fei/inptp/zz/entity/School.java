@@ -129,11 +129,7 @@ public class School implements ISchool {
 
     @Override
     public Iterator<Course> getCourses() {
-
         List<Course> newList = Collections.unmodifiableList(courses);
-        for (Course course : courses) {
-            newList.add(course);
-        }
         return newList.iterator();
     }
 
