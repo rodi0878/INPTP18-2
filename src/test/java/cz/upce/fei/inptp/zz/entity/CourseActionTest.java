@@ -38,4 +38,21 @@ public class CourseActionTest {
         
         assertFalse(courseAction.isNotFull());
     }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void testAddRoomWithLowCapacity() {
+        CourseAction courseAction = new CourseAction();
+        courseAction.setCapacity(10);
+        Room room = new Room(5);       
+        courseAction.setRoom(room);      
+    }
+    
+    @Test
+    public void testAddRoomWithEnoughCapacity() {
+        CourseAction courseAction = new CourseAction();
+        courseAction.setCapacity(10);
+        Room room = new Room(50);       
+        courseAction.setRoom(room);        
+        assertNotNull(courseAction.getRoom());        
+    }    
 }
