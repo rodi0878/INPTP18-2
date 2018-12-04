@@ -17,4 +17,8 @@ public class Student extends Person {
     public void setActions(List<CourseAction> actions) {
         this.actions = actions;
     }
+    
+    public boolean addAction(CourseAction action){
+        return actions.add(action);
+    }
 }
