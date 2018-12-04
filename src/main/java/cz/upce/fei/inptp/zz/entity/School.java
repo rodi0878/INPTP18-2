@@ -1,6 +1,8 @@
 package cz.upce.fei.inptp.zz.entity;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
@@ -127,7 +129,8 @@ public class School implements ISchool {
 
     @Override
     public Iterator<Course> getCourses() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<Course> newList = Collections.unmodifiableList(courses);
+        return newList.iterator();
     }
 
     private boolean checkIsStudentAtSchool(Student student) {
