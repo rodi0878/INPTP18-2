@@ -10,6 +10,7 @@ public class CourseAction {
     private Teacher teacher;
     private List<Student> students;
     private ActionType type;
+    private Room room;
     private int capacity;
     
     public CourseAction() {
@@ -20,7 +21,17 @@ public class CourseAction {
     public boolean isNotFull() {
         return this.students.size() < this.capacity;
     }
-    
+
+    public Room getRoom() {
+        return room;
+    }
+
+    public void setRoom(Room room) {
+        if(room.getRoomCapacity() < capacity)
+            throw new IllegalArgumentException("Not enough room capacity for course action");
+        this.room = room;
+    }
+
     public int getCapacity() {
         return capacity;
     }
