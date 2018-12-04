@@ -35,8 +35,8 @@ public class School implements ISchool {
         for (CourseAction action : course.getActions()) {
             if (action.getTimeSlot().equals(timeSlot)) {
                 if (action.isNotFull()) {
-                    action.getStudents().add(student);
-                    student.getActions().add(action);
+                    action.addStudent(student);
+                    student.addAction(action);
 
                     return true;
                 }
@@ -113,7 +113,7 @@ public class School implements ISchool {
     @Override
     public boolean addCourseAction(Course course, CourseAction courseAction) {
         return courses.stream().filter((c) -> c.equals(course))
-                .findFirst().get().getActions().add(courseAction);
+                .findFirst().get().addAction(courseAction);
     }
 
     @Override
