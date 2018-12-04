@@ -1,22 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package cz.upce.fei.inptp.zz.entity;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-// TODO: drop all unnecessary comments and @author tags
-/**
- *
- * @author Roman
- */
 public class SchoolTest {
 
     private School school;
@@ -30,7 +20,8 @@ public class SchoolTest {
         school = new School();
         student = new Student();
         course = new Course();
-        timeSlot = new TimeSlot(Day.Saturday, 10, 2);
+
+        timeSlot = new TimeSlot(Day.SATURDAY, 10, 11);
 
         courseAction = new CourseAction();
         courseAction.setTimeSlot(timeSlot);
@@ -214,7 +205,8 @@ public class SchoolTest {
     public void testAddStudentToEmptyCourseAction() {
         Student student = new Student();
         CourseAction courseAction = new CourseAction();
-        TimeSlot timeSlot = new TimeSlot(Day.Saturday, 10, 2);
+        TimeSlot timeSlot = new TimeSlot(Day.SATURDAY, 10, 11);
+
         Course course = new Course();
         School school = new School();
         
@@ -231,7 +223,8 @@ public class SchoolTest {
     public void testAddStudentToZeroCapacityCourseAction() {
         Student student = new Student();
         CourseAction courseAction = new CourseAction();
-        TimeSlot timeSlot = new TimeSlot(Day.Saturday, 10, 2);
+        TimeSlot timeSlot = new TimeSlot(Day.SATURDAY, 10, 11);
+
         Course course = new Course();
         School school = new School();
         
@@ -248,7 +241,8 @@ public class SchoolTest {
     public void testAddStudentToNotEmptyCourseAction() {
         Student student = new Student();
         CourseAction courseAction = new CourseAction();
-        TimeSlot timeSlot = new TimeSlot(Day.Saturday, 10, 2);
+        TimeSlot timeSlot = new TimeSlot(Day.SATURDAY, 10, 11);
+
         Course course = new Course();
         School school = new School();
         
@@ -267,7 +261,8 @@ public class SchoolTest {
     public void testAddStudentToFullCourseAction() {
         Student student = new Student();
         CourseAction courseAction = new CourseAction();
-        TimeSlot timeSlot = new TimeSlot(Day.Saturday, 10, 2);
+        TimeSlot timeSlot = new TimeSlot(Day.SATURDAY, 10, 11);
+
         Course course = new Course();
         School school = new School();
         
@@ -281,53 +276,44 @@ public class SchoolTest {
         
         assertFalse(school.addStudentToCourseAction(course, student, timeSlot));
     }
-    
-    @Test
-    public void testGetCoursesIteratorIsUnmodifiable(){
-        school = new School();
-        school.addCourse(new Course());
-        school.addCourse(new Course());
-        school.addCourse(new Course());
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testAddTeacherIfTeacherAlreadyExist(){
+        List<Teacher> teachers = new ArrayList<>();
         
-        List<Course> immutableList = new ArrayList<>();
-        List<Course> originalList = school.getCoursesList();
-        Iterator it = school.getCourses();
-        while (it.hasNext()) {
-            Course course = (Course) it.next();
-            immutableList.add(course);
-        }
+        teachers.add(new Teacher("123"));
         
-        boolean addressOfObjIsEqual = false;
-        for (int i = 0; i < immutableList.size(); i++) {
-            if(immutableList.get(i).equals(originalList.get(i)))
-                addressOfObjIsEqual = true;
-        }        
-        assertFalse(addressOfObjIsEqual);                        
+        school.setTeachers(teachers);
+        
+        school.addTeacher(new Teacher("123"));
+        
     }
     
     @Test
-    public void testGetCoursesIteratorHasNextMethod(){
-        school = new School();
-        school.addCourse(new Course());
-        Iterator it = school.getCourses();
-        assertTrue(it.hasNext());
-    }
-    
-    @Test
-    public void testGetCoursesIteratorReturnsAllCourses(){
-        school = new School();
-        school.addCourse(new Course());   
-        school.addCourse(new Course());   
-        school.addCourse(new Course());   
-        school.addCourse(new Course());   
-        int numberOfReturn = 0;
+    public void testAddTeacherIfTeacherNotAlreadyExist(){
+        List<Teacher> teachers = new ArrayList<>();
         
-        Iterator it = school.getCourses();        
-        while (it.hasNext()) {
-            it.next();
-            numberOfReturn++;   
-        }
-        assertEquals(numberOfReturn, school.getCoursesList().size());
+        Teacher teacher1 = new Teacher("1234");
+        
+        Teacher teacher2 = new Teacher("123");
+        
+        teachers.add(teacher1);
+        
+        school.setTeachers(teachers);
+        
+        school.addTeacher(teacher2);
+        
+        List<Teacher> list = school.getTeachers();
+        
+        Assert.assertTrue(list.get(0).equals(teacher1));
+        
+        Assert.assertTrue(list.get(1).equals(teacher2));
+        
     }
     
+    @Test(expected = NullPointerException.class)
+    public void testAddTeacherWhenTeacherIsNull() {        
+        school.addTeacher(null);
+    }
+
 }

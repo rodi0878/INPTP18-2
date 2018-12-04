@@ -3,37 +3,55 @@ package cz.upce.fei.inptp.zz.entity;
 import java.util.Objects;
 
 public class TimeSlot {
-    
+
     private Day day;
-    private int hour;
-    
-    // TODO: is this clear?
-    private int duration;
-    
-    public TimeSlot(Day day, int hour, int duration) {
+    private int hourOfTimeSlotStart = 0;
+    private int hourOfTimeSlotEnd = 23;
+
+    public TimeSlot(Day day, int hourOfTimeSlotStart, int hourOfTimeSlotEnd)
+            throws IllegalArgumentException {
+
+        if (!areBothHourArgumentsCorrect(hourOfTimeSlotStart, hourOfTimeSlotEnd)) {
+            throw new IllegalArgumentException("Hour arguments are not correct!");
+        }
+
         this.day = day;
-        this.hour = hour;
-        this.duration = duration;
+        this.hourOfTimeSlotEnd = hourOfTimeSlotEnd;
+        this.hourOfTimeSlotStart = hourOfTimeSlotStart;
     }
 
     public Day getDay() {
         return day;
     }
 
-    public int getHour() {
-        return hour;
+    public int getHourOfTimeSlotStart() {
+        return hourOfTimeSlotStart;
     }
 
-    public int getDuration() {
-        return duration;
+    public int getHourOfTimeSlotEnd() {
+        return hourOfTimeSlotEnd;
+    }
+
+    private boolean areBothHourArgumentsCorrect(int startHour, int endHour) {
+        return (startHour >= 0 && startHour < endHour)
+                && (endHour <= 23 && endHour > startHour);
+    }
+
+    public boolean isOverlappingWithOtherTimeslot(TimeSlot timeSlot) {
+        if (day.equals(timeSlot.getDay())) {
+            return hourOfTimeSlotStart < timeSlot.getHourOfTimeSlotEnd()
+                    && timeSlot.getHourOfTimeSlotStart() < getHourOfTimeSlotEnd();
+        }
+
+        return false;
     }
 
     @Override
     public int hashCode() {
         int hash = 5;
         hash = 79 * hash + Objects.hashCode(this.day);
-        hash = 79 * hash + this.hour;
-        hash = 79 * hash + this.duration;
+        hash = 79 * hash + this.hourOfTimeSlotStart;
+        hash = 79 * hash + this.hourOfTimeSlotEnd;
         return hash;
     }
 
@@ -49,10 +67,10 @@ public class TimeSlot {
             return false;
         }
         final TimeSlot other = (TimeSlot) obj;
-        if (this.hour != other.getHour()) {
+        if (this.hourOfTimeSlotStart != other.getHourOfTimeSlotStart()) {
             return false;
         }
-        if (this.duration != other.getDuration()) {
+        if (this.hourOfTimeSlotEnd != other.getHourOfTimeSlotEnd()) {
             return false;
         }
         if (this.day != other.getDay()) {
@@ -60,6 +78,4 @@ public class TimeSlot {
         }
         return true;
     }
-    
-    
 }

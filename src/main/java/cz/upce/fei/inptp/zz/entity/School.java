@@ -1,15 +1,13 @@
 package cz.upce.fei.inptp.zz.entity;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.Objects;
 
-/**
- * @author Roman
- */
+
 public class School implements ISchool {
 
     private List<Course> courses;
@@ -25,13 +23,11 @@ public class School implements ISchool {
     @Override
     public boolean addStudentToCourseAction(Course course, Student student, TimeSlot timeSlot) {
 
-        //check if student is present at school
-        if (students.stream().noneMatch(studentAtSchool -> studentAtSchool.equals(student))) {
+        if (!students.contains(student)) {
             return false;
         }
 
-        //check if course is present at school
-        if (courses.stream().noneMatch(courseAtSchool -> courseAtSchool.equals(course))) {
+        if (!courses.contains(course)) {
             return false;
         }
 
@@ -40,8 +36,8 @@ public class School implements ISchool {
         for (CourseAction action : course.getActions()) {
             if (action.getTimeSlot().equals(timeSlot)) {
                 if (action.isNotFull()) {
-                    action.getStudents().add(student);
-                    student.getActions().add(action);
+                    action.addStudent(student);
+                    student.addAction(action);
 
                     return true;
                 }
@@ -119,38 +115,24 @@ public class School implements ISchool {
     @Override
     public boolean addCourseAction(Course course, CourseAction courseAction) {
         return courses.stream().filter((c) -> c.equals(course))
-                .findFirst().get().getActions().add(courseAction);
+                .findFirst().get().addAction(courseAction);
     }
 
     @Override
     public void addTeacher(Teacher teacher) {
+        if (Objects.isNull(teacher)) {
+            throw new NullPointerException();
+        }
+        if (teachers.contains(teacher)) {
+            throw new IllegalArgumentException("The teacher is already existing");
+        }
         teachers.add(teacher);
     }
 
     @Override
     public Iterator<Course> getCourses() {
-        return new Iterator<Course>() {
-            int current = 0;
-
-            @Override
-            public boolean hasNext() {
-                return current < courses.size();
-            }
-
-            @Override
-            public Course next() {
-                if (!hasNext()) {
-                    throw new NoSuchElementException();
-                }
-
-                try {
-                    return (Course) courses.get(current++).clone();
-                } catch (CloneNotSupportedException ex) {                        
-                    return null;
-                }
-                       
-            }
-        };
+        List<Course> newList = Collections.unmodifiableList(courses);
+        return newList.iterator();
     }
 
     private boolean checkIsStudentAtSchool(Student student) {
