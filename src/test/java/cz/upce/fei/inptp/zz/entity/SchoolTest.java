@@ -37,26 +37,23 @@ public class SchoolTest {
         boolean result = school.addStudentToCourseAction(course, student, timeSlot);
 
         assertTrue(result);
-        // TODO: do also invalid cases...
     }
 
     @Test
     public void testAddStudentToCourseActionWhenCourseIsNotPresent() {
 
-        //school.courses.add(course);
         course.getActions().add(courseAction);
         school.getStudents().add(student);
 
         boolean result = school.addStudentToCourseAction(course, student, timeSlot);
 
-        //assertFalse(result);
+        assertFalse(result);
     }
 
     @Test
     public void testAddStudentToCourseActionWhenCourseIsMissingCourseAction() {
 
         school.getCoursesList().add(course);
-        //course.actions.add(courseAction);
         school.getStudents().add(student);
 
         boolean result = school.addStudentToCourseAction(course, student, timeSlot);
@@ -72,9 +69,9 @@ public class SchoolTest {
 
         boolean result = school.addStudentToCourseAction(course, new Student(), timeSlot);
 
-        assertEquals(false, result);
+        assertFalse(result);
     }
-    
+
     @Test
     public void testAddStudent() {
         School school = new School();
@@ -121,7 +118,7 @@ public class SchoolTest {
         Student student2 = new Student();
         student2.setID("S0001");
         
-        assertTrue(student.equals(student2));
+        assertEquals(student, student2);
     }
     
     @Test
@@ -130,7 +127,7 @@ public class SchoolTest {
         Student student2 = new Student();
         student2.setID("S0002");
         
-        assertFalse(student.equals(student2));
+        assertNotEquals(student, student2);
     }
     
     @Test
@@ -315,7 +312,17 @@ public class SchoolTest {
         
         school.addTeacher(null);
     }
-   
+
+    @Test(expected = NullPointerException.class)
+    public void testAddCourseWhenCourseIsNull() {
+        school.addCourse(null);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void testAddStudentWhenStudentIsNull() {
+        school.addStudent(null);
+    }
+
     @Test
     public void testSwapCourseActionsBetweenTeachersIsPossible() {
         Teacher originalTeacher = new Teacher("Original Teacher");
