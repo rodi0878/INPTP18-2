@@ -315,4 +315,48 @@ public class SchoolTest {
         
         school.addTeacher(null);
     }
+   
+    @Test
+    public void testSwapCourseActionsBetweenTeachersIsPossible() {
+        Teacher originalTeacher = new Teacher("Original Teacher");
+        Teacher newTeacher = new Teacher("New Teacher");
+        TimeSlot newTimeSlot = new TimeSlot(Day.FRIDAY, 10, 11);
+        CourseAction newCourseAction = new CourseAction();
+
+        newCourseAction.setTimeSlot(newTimeSlot);
+        originalTeacher.getActions().add(courseAction);
+        newTeacher.getActions().add(newCourseAction);
+
+        school.swapCourseActionBetweenTeachers(originalTeacher, newTeacher, courseAction);
+        Assert.assertEquals(2, newTeacher.getActions().size());
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void testSwapCourseActionsBetweenTeachersIsNotPossible() {
+        Teacher originalTeacher = new Teacher("Original Teacher");
+        Teacher newTeacher = new Teacher("New Teacher");
+        TimeSlot newTimeSlot = new TimeSlot(Day.SATURDAY, 10, 11);
+        CourseAction newCourseAction = new CourseAction();
+
+        newCourseAction.setTimeSlot(newTimeSlot);
+        originalTeacher.getActions().add(courseAction);
+        newTeacher.getActions().add(newCourseAction);
+
+        school.swapCourseActionBetweenTeachers(originalTeacher, newTeacher, courseAction);
+    }
+
+    @Test
+    public void testIsTeacherCorrectAfterSwapCourseActions() {
+        Teacher originalTeacher = new Teacher("Original Teacher");
+        Teacher newTeacher = new Teacher("New Teacher");
+        TimeSlot newTimeSlot = new TimeSlot(Day.FRIDAY, 10, 11);
+        CourseAction newCourseAction = new CourseAction();
+
+        newCourseAction.setTimeSlot(newTimeSlot);
+        originalTeacher.getActions().add(courseAction);
+        newTeacher.getActions().add(newCourseAction);
+
+        school.swapCourseActionBetweenTeachers(originalTeacher, newTeacher, courseAction);
+        Assert.assertEquals(newTeacher, courseAction.getTeacher());
+    }
 }
