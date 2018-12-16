@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 
 public class School implements ISchool {
@@ -136,40 +137,28 @@ public class School implements ISchool {
     }
 
     private boolean checkIsStudentAtSchool(Student student) {
-        for (Student studentOfSchool : students) {
-            if (studentOfSchool.equals(student)) {
-                return true;
-            }
-        }
-        return false;
+        return students.stream().anyMatch((studentOfSchool) -> (studentOfSchool.equals(student)));
     }
 
     private boolean checkIsCourseAtSchool(Course course) {
-        for (Course courseOfSchool : courses) {
-            if (courseOfSchool.equals(course)) {
-                return true;
-            }
-        }
-        return false;
+        return courses.stream().anyMatch((courseOfSchool) -> (courseOfSchool.equals(course)));
     }
 
     private boolean checkAllStudentsOfCourseArePresentAtSchool(Course newCourse) {
-        for (CourseAction courseAction : newCourse.getActions()) {
-            for (Student student : courseAction.getStudents()) {
-                if (!checkIsStudentAtSchool(student)) {
-                    return false;
-                }
-            }
-        }
-        return true;
+        Stream<CourseAction> courseActions = newCourse.getActions().stream();
+        return courseActions.allMatch(t -> t.getStudents().stream()
+                            .allMatch(student -> checkIsStudentAtSchool(student)));  
     }
 
     private boolean checkNoCollisionsWithTeachersAndTimeSlot(Course newCourse) {
         for (Course course : courses) {
             for (CourseAction courseAction : course.getActions()) {
                 for (CourseAction newCourseAction : newCourse.getActions()) {
-                    if (courseAction.getTeacher().equals(newCourseAction.getTeacher())
-                            && courseAction.getTimeSlot().equals(newCourseAction.getTimeSlot())) {
+                    
+                    boolean teacherIsInCourse = courseAction.getTeacher().equals(newCourseAction.getTeacher());
+                    boolean timeSlotsEquality =  courseAction.getTimeSlot().equals(newCourseAction.getTimeSlot());
+                    
+                    if (teacherIsInCourse && timeSlotsEquality) {
                         return false;
                     }
                 }
