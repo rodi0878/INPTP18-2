@@ -196,4 +196,15 @@ public class School implements ISchool {
         }
         return true;
     }
+
+    public void swapCourseActionBetweenTeachers(Teacher orignalTeacher, Teacher newTeacher, CourseAction courseAction) {
+        for (CourseAction course : newTeacher.getActions()) {
+            if (course.getTimeSlot().isOverlappingWithOtherTimeslot(courseAction.getTimeSlot())) {
+                throw new IllegalStateException("New teacher is not available for this Course.");
+            }
+        }
+        newTeacher.getActions().add(courseAction);
+        orignalTeacher.getActions().remove(courseAction);
+        courseAction.setTeacher(newTeacher);
+    }
 }
