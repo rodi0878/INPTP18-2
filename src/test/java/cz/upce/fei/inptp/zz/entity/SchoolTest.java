@@ -300,10 +300,10 @@ public class SchoolTest {
         school.addTeacher(teacher2);
         
         List<Teacher> list = school.getTeachers();
-        
-        Assert.assertTrue(list.get(0).equals(teacher1));
-        
-        Assert.assertTrue(list.get(1).equals(teacher2));
+
+        Assert.assertEquals(list.get(0), teacher1);
+
+        Assert.assertEquals(list.get(1), teacher2);
         
     }
     
