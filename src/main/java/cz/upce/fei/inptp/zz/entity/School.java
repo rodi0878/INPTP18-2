@@ -6,12 +6,15 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class School implements ISchool {
 
     private List<Course> courses;
     private List<Teacher> teachers;
     private List<Student> students;
+    private static final Logger LOGGER = Logger.getLogger(School.class.getName());
 
     public School() {
         courses = new ArrayList<>();
@@ -22,13 +25,15 @@ public class School implements ISchool {
     @Override
     public boolean addStudentToCourseAction(Course course, Student student, TimeSlot timeSlot) {
 
-        if (!students.contains(student)) {
-            return false;
-        }
+      // check if student is present at school
+      if (!students.contains(student)) {
+          return false;
+      }
 
-        if (!courses.contains(course)) {
-            return false;
-        }
+      // check if course is present at school
+      if (!courses.contains(course)) {
+          return false;
+      }
 
         //check if specific timeSlot action is available in course
         //check if course action has a free capacity for new student
@@ -48,9 +53,15 @@ public class School implements ISchool {
 
     @Override
     public void addStudent(Student newStudent) {
-        if (!checkIsStudentAtSchool(newStudent)) {
+        if (newStudent == null) {
+            LOGGER.log(Level.INFO, "Tried to add null student object. Throwing an exception.");
+            throw new NullPointerException();
+      }
+
+      if (!checkIsStudentAtSchool(newStudent)) {
             students.add(newStudent);
-        }
+            LOGGER.log(Level.INFO, "Student [" + newStudent.getID() + "] was added successfully.");
+      }
     }
 
     public void removeStudent(Student studentToBeRemoved) {
@@ -63,6 +74,7 @@ public class School implements ISchool {
             });
 
             removedStudent.getActions().clear();
+            LOGGER.log(Level.INFO, "Student was removed from school.");
         }
     }
 
@@ -118,13 +130,15 @@ public class School implements ISchool {
 
     @Override
     public void addTeacher(Teacher teacher) {
-        if (Objects.isNull(teacher)) {
+        if (teacher == null) {
+            LOGGER.log(Level.INFO, "Tried to add null teacher object. Throwing an exception.");
             throw new NullPointerException();
         }
         if (teachers.contains(teacher)) {
             throw new IllegalArgumentException("The teacher is already existing");
         }
         teachers.add(teacher);
+        LOGGER.log(Level.INFO, "Teacher [" + teacher.getID() + "] was added to school.");
     }
 
     @Override
